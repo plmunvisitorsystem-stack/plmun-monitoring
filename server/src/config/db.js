@@ -24,9 +24,25 @@ const mysql = require('mysql2/promise');
 function sslOptions() {
   if (process.env.DB_SSL !== 'true') return undefined;
   let ca;
-  if (process.env.DB_SSL_CA) ca = process.env.DB_SSL_CA.replace(/\\n/g, '\n');
-  else if (process.env.DB_SSL_CA_FILE) ca = fs.readFileSync(process.env.DB_SSL_CA_FILE, 'utf8');
+  if (process.env.DB_SSL_CA) ca = normalizePem(process.env.DB_SSL_CA);
+  else if (process.env.DB_SSL_CA_FILE) ca = normalizePem(fs.readFileSync(process.env.DB_SSL_CA_FILE, 'utf8'));
   return ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: false };
+}
+
+/**
+ * Rebuilds a certificate pasted into a hosting dashboard, where line breaks
+ * often become spaces, "\r\n", or the two characters "\n". Each
+ * BEGIN/END CERTIFICATE block is re-wrapped in the standard 64-character lines.
+ */
+function normalizePem(text) {
+  const blocks = [...String(text).replace(/\\n/g, '\n').matchAll(/-----BEGIN CERTIFICATE-----([\s\S]*?)-----END CERTIFICATE-----/g)];
+  if (blocks.length === 0) return String(text);
+  return blocks
+    .map(([, body]) => {
+      const base64 = body.replace(/[^A-Za-z0-9+/=]/g, '');
+      return `-----BEGIN CERTIFICATE-----\n${base64.match(/.{1,64}/g).join('\n')}\n-----END CERTIFICATE-----\n`;
+    })
+    .join('');
 }
 
 // Dates are stored in Barangay Landayan time. Cloud databases usually run on
@@ -70,4 +86,4 @@ async function checkConnection() {
   }
 }
 
-module.exports = { pool, checkConnection, sslOptions };
+module.exports = { pool, checkConnection, sslOptions, normalizePem };
