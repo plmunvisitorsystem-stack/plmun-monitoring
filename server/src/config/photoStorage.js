@@ -1,7 +1,7 @@
 /**
  * Where report photos and featured "after" photos are kept.
  *
- *   local       (default)  server/uploads/<folder>/<random>.jpg|png
+ *   local       (default)  <UPLOAD_DIR or server/uploads>/<folder>/<random>.jpg|png
  *                          stored path: "reports/ab12....jpg"
  *   cloudinary  (when CLOUDINARY_URL is set in .env, e.g. on free hosting whose
  *                disk is wiped on every restart)

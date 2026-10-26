@@ -69,11 +69,11 @@ app.use('/api/chatbot', requireAuth, requireRole('resident'), chatbotRoutes);
 app.use('/api/livechat', requireAuth, liveChatRoutes);
 
 // ----- The website itself (hosting: one service for website + API) -----
-// With SERVE_CLIENT=true the built React app (client/dist, made by
-// "npm run build" in /client) is served from the same address as the API,
-// so the browser needs no CORS and Socket.IO connects to the same server.
-// In development the Vite dev server does this instead (leave it unset).
-if (process.env.SERVE_CLIENT === 'true') {
+// In production (NODE_ENV=production), or with SERVE_CLIENT=true, the built
+// React app (client/dist, made by "npm run build") is served from the same
+// address as the API, so the browser needs no CORS and Socket.IO connects to
+// the same server. In development the Vite dev server does this instead.
+if (process.env.NODE_ENV === 'production' || process.env.SERVE_CLIENT === 'true') {
   const CLIENT_DIST = path.resolve(__dirname, '../../client/dist');
   // Hashed files (assets/index-ab12.js) never change: cache them for a year.
   app.use('/assets', express.static(path.join(CLIENT_DIST, 'assets'), { immutable: true, maxAge: '1y' }));

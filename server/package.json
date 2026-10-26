@@ -11,7 +11,7 @@
     "hash": "node scripts/hash-password.js",
     "test": "jest",
     "recalc-priorities": "node scripts/recalculate-priorities.js",
-    "init-db": "node scripts/init-db.js"
+    "db:setup": "node scripts/db-setup.js"
   },
   "engines": {
     "node": ">=18.11"

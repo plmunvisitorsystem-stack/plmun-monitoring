@@ -1,11 +1,21 @@
 /**
  * Entry point: loads settings from .env and starts the API server.
  */
-require('dotenv').config({ quiet: true });
+// server/.env, also when started from the project root (npm start). On hosting
+// the settings come from the platform's environment variables instead.
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env'), quiet: true });
 
 // Login tokens cannot be made safely without a secret, so stop early.
-if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'change-this-to-a-long-random-string') {
-  console.error('JWT_SECRET is missing in server/.env. Set it to a long random string and restart.');
+const DEV_JWT_SECRET = 'change-this-to-a-long-random-string'; // the value in .env.example
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const jwtSecret = process.env.JWT_SECRET || '';
+if (!jwtSecret || jwtSecret === DEV_JWT_SECRET) {
+  console.error('JWT_SECRET is missing (or is the example value). Set it to a long random string and restart.');
+  process.exit(1);
+}
+// On the live system the secret must also be long, so tokens cannot be guessed.
+if (IS_PRODUCTION && jwtSecret.length < 32) {
+  console.error('JWT_SECRET is too short for production (at least 32 characters). Set a long random string and restart.');
   process.exit(1);
 }
 

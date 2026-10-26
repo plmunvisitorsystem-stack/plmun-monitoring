@@ -1,0 +1,15 @@
+{
+  "name": "landayan-ers",
+  "version": "1.0.0",
+  "description": "Smart Environmental Reporting and Community Response System - Barangay Landayan (one service: website + API + live chat)",
+  "private": true,
+  "scripts": {
+    "build": "npm ci --prefix client --include=dev && npm run build --prefix client && npm ci --prefix server --omit=dev",
+    "start": "node server/src/server.js",
+    "db:setup": "node server/scripts/db-setup.js",
+    "test": "npm test --prefix server"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}
