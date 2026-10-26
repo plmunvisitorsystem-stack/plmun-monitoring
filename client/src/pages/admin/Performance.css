@@ -1,0 +1,64 @@
+.performance {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.performance .page-title {
+  margin-bottom: 4px;
+}
+
+.rate-card__value {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--status-resolved);
+}
+
+/* Simple meter: green fill on a light green track */
+.rate-card__bar {
+  height: 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  background: var(--color-success-light);
+  overflow: hidden;
+}
+
+.rate-card__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: var(--status-resolved);
+}
+
+/* Numbers line up in columns */
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right !important;
+}
+
+.performance-table td.num {
+  font-weight: 600;
+}
+
+.performance__unassigned {
+  margin-top: 10px;
+}
+
+.user-cell__name {
+  display: block;
+  font-weight: 700;
+}
+
+.user-cell__username {
+  display: block;
+  font-size: var(--font-small);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1099px) {
+  .num {
+    text-align: left !important;
+  }
+}

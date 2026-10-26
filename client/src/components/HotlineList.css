@@ -1,0 +1,62 @@
+.hotline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hotline-list__item p {
+  margin: 0;
+}
+
+.hotline-list__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-weight: 600;
+}
+
+/* Small gray label: the number still has to be confirmed with the office */
+.hotline-list__unconfirmed {
+  padding: 1px 8px;
+  border-radius: var(--radius);
+  background: #EEF0F2;
+  color: #4B5563; /* 7.6:1 on the gray */
+  font-size: var(--font-small);
+  font-weight: 600;
+}
+
+.hotline-list__address {
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}
+
+.hotline-list__numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Tap-to-call button (red outline, like the other emergency actions) */
+.hotline-list__call {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1.5px solid var(--color-error);
+  border-radius: 999px;
+  background: var(--color-card);
+  color: var(--color-error);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hotline-list__call:hover {
+  background: var(--color-error-light);
+}

@@ -1,0 +1,120 @@
+.feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feedback .page-title {
+  margin-bottom: 0;
+}
+
+.feedback__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+}
+
+.feedback__location .icon {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.feedback__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ----- Star picker ----- */
+.star-picker {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.star-picker__question {
+  margin-bottom: 12px;
+  padding: 0;
+  font-size: var(--font-heading);
+  font-weight: 700;
+}
+
+.star-picker__row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+/* One star + its label. Big tap area for phones. */
+.star-picker__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 96px;
+  padding: 10px 2px 8px;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  color: var(--color-input-border);
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation; /* no double-tap zoom delay on phones */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.star-picker__option:hover {
+  background: var(--color-card);
+}
+
+/* Stars up to the chosen rating are orange and filled */
+.star-picker__option.is-filled {
+  color: var(--status-in-progress);
+}
+
+/* The chosen star gets a box around it */
+.star-picker__option.is-selected {
+  border-color: var(--status-in-progress);
+  background: var(--color-card);
+}
+
+.star-picker__option:has(input:focus-visible) {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 1px;
+}
+
+.star-picker__label {
+  color: var(--color-text);
+  font-size: var(--font-small);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.star-picker__option.is-selected .star-picker__label {
+  font-weight: 700;
+}
+
+.star-picker__summary {
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ----- "Your Feedback" card on Report Details ----- */
+.your-feedback__rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.your-feedback__label {
+  font-weight: 700;
+}
+
+.your-feedback__comments {
+  margin: 12px 0 0;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}

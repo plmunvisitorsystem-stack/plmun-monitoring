@@ -1,0 +1,200 @@
+/* ----- Staff top bar: 56px, white ----- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 24px;
+  border-bottom: 1px solid #D4DDD4;
+  background: #FFFFFF;
+}
+
+.topbar__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar__clock {
+  color: #5F665F;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.topbar__icon-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid #D4DDD4;
+  border-radius: 4px;
+  background: #FFFFFF;
+  color: #1A1A1A;
+  cursor: pointer;
+}
+
+.topbar__icon-button:hover {
+  background: #F3F6F3;
+}
+
+/* Menu button: only when the sidebar is a drawer */
+.topbar__menu {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .topbar__menu {
+    display: grid;
+  }
+}
+
+/* Phones: the clock does not fit next to the title */
+@media (max-width: 699px) {
+  .topbar__clock {
+    display: none;
+  }
+}
+
+/* ----- Notification bell ----- */
+.bell {
+  position: relative;
+}
+
+.bell__count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #B42318;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+}
+
+.bell__panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 50;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(480px, calc(100vh - 80px));
+  overflow-y: auto;
+  border: 1px solid #D4DDD4;
+  border-radius: 4px;
+  background: #FFFFFF;
+}
+
+.bell__header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #D4DDD4;
+  background: #FFFFFF;
+}
+
+.bell__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.bell__mark-all {
+  min-height: 40px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: #15803D;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bell__mark-all:hover {
+  color: #166534;
+  text-decoration: underline;
+}
+
+.bell__empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 16px;
+  color: #5F665F;
+  font-size: 14px;
+}
+
+.bell__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bell__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 10px 16px 10px 13px;
+  border: 0;
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid #D4DDD4;
+  background: #FFFFFF;
+  color: #1A1A1A;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bell__list li:last-child .bell__item {
+  border-bottom: 0;
+}
+
+.bell__item:hover {
+  background: #F3F6F3;
+}
+
+.bell__item.is-unread {
+  border-left-color: #15803D;
+  font-weight: 500;
+}
+
+.bell__time {
+  color: #5F665F;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+}

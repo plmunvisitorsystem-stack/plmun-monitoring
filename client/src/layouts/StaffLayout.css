@@ -1,0 +1,49 @@
+.staff-layout {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+/* Room for the fixed 220px sidebar on desktops */
+.staff-layout__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 220px;
+}
+
+.staff-layout__main {
+  flex: 1;
+  min-width: 0; /* lets wide content (tables, charts) shrink instead of overflowing */
+  padding: 24px;
+}
+
+.staff-layout__content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Paper: no sidebar, top bar, or drawer backdrop (see also index.css) */
+@media print {
+  .topbar,
+  .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .staff-layout__body {
+    margin-left: 0;
+  }
+
+  .staff-layout__content {
+    max-width: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .staff-layout__body {
+    margin-left: 0;
+  }
+
+  .staff-layout__main {
+    padding: 16px;
+  }
+}

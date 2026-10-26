@@ -1,0 +1,102 @@
+/* Hall photo fills the screen (see HallPhoto.css); the photo shows above and below the card */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px var(--gutter);
+}
+
+/* The card keeps its normal (dark) text on white */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px 20px;
+  background: var(--color-card);
+  color: var(--color-text);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.auth-card__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-card__title {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.auth-card__divider {
+  margin: 24px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Form pieces shared by Login and Register */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-form__heading {
+  margin: 0;
+  font-size: var(--font-title);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Register: Data Privacy Notice link + consent checkbox */
+.register-privacy__intro {
+  margin: 0;
+  font-size: var(--font-small);
+  color: var(--color-text-muted);
+}
+
+.register-privacy__intro a {
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.register-privacy__check {
+  align-items: flex-start;
+  line-height: 1.4;
+}
+
+.register-privacy__check input {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.auth-form__switch {
+  margin: 4px 0 0;
+  text-align: center;
+}
+
+.auth-form__switch a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: 0 4px;
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+@media (min-width: 600px) {
+  .auth-page {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .auth-card {
+    padding: 36px 40px;
+  }
+}

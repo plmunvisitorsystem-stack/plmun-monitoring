@@ -1,0 +1,126 @@
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline__step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 60px;
+  color: var(--color-text-muted);
+}
+
+/* Line connecting this step to the next one */
+.timeline__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 34px;
+  bottom: -2px;
+  left: 15px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+/* The line after a finished step is green */
+.timeline__step.is-done:not(:last-child)::after {
+  background: var(--status-resolved);
+}
+
+.timeline__marker {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-card);
+  color: #FFFFFF;
+}
+
+.timeline__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+.timeline__text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.timeline__label {
+  font-weight: 600;
+}
+
+/* ----- Finished: green with check ----- */
+.timeline__step.is-done .timeline__marker {
+  border-color: var(--status-resolved);
+  background: var(--status-resolved);
+}
+
+.timeline__step--done {
+  color: var(--color-text);
+}
+
+/* ----- Current: status color, bold, with a tag ----- */
+.timeline__step--current {
+  color: var(--color-text);
+}
+
+.timeline__step--current .timeline__label {
+  font-weight: 700;
+}
+
+.timeline__step--current .timeline__marker {
+  box-shadow: 0 0 0 4px var(--step-color-light);
+  border-color: var(--step-color);
+}
+
+.timeline__step--current:not(.is-done) .timeline__dot {
+  width: 14px;
+  height: 14px;
+  background: var(--step-color);
+}
+
+.timeline__tag {
+  padding: 2px 10px;
+  border-radius: var(--radius);
+  background: var(--step-color);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+  font-weight: 600;
+}
+
+/* Each status uses its badge color when it is the current step */
+.timeline__step--submitted {
+  --step-color: var(--status-submitted);
+  --step-color-light: #E5E7EB;
+}
+
+.timeline__step--underReview {
+  --step-color: var(--status-under-review);
+  --step-color-light: #DCE8F3;
+}
+
+.timeline__step--inProgress {
+  --step-color: var(--status-in-progress);
+  --step-color-light: #F8E9D2;
+}
+
+/* Same contrast fix as the In Progress badge */
+.timeline__step--inProgress .timeline__tag {
+  color: var(--status-in-progress-text);
+}
+
+.timeline__step--resolved {
+  --step-color: var(--status-resolved);
+  --step-color-light: #DDEFDF;
+}

@@ -1,0 +1,99 @@
+/* One "Resolved Cases" slide (landing page + LGU preview) */
+.featured-slide {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  box-shadow: var(--shadow);
+}
+
+.featured-slide__photo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--color-primary-light);
+}
+
+.featured-slide__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-slide__no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}
+
+.featured-slide__no-photo svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* "Resolved" chip on the photo */
+.featured-slide__resolved {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-success);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+  font-weight: 600;
+}
+
+.featured-slide__resolved svg {
+  width: 16px;
+  height: 16px;
+}
+
+.featured-slide__body {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+
+.featured-slide__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.featured-slide__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}
+
+.featured-slide__place svg {
+  width: 16px;
+  height: 16px;
+}
+
+.featured-slide__caption {
+  margin: 0;
+  font-size: var(--font-body);
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.featured-slide__date {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}

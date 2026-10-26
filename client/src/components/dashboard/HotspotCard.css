@@ -1,0 +1,107 @@
+.hotspots__hint {
+  margin: -6px 0 12px;
+}
+
+.hotspots__empty {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+.hotspots__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Desktop: one line per area -> rank | area | issue type | bar | total */
+.hotspot {
+  display: grid;
+  grid-template-columns: 32px minmax(72px, auto) minmax(150px, auto) minmax(80px, 1fr) auto;
+  grid-template-areas: 'rank area type bar total';
+  align-items: center;
+  gap: 8px 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hotspot:last-child {
+  border-bottom: 0;
+}
+
+.hotspot__rank {
+  grid-area: rank;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.hotspot__area {
+  grid-area: area;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.hotspot__type {
+  grid-area: type;
+}
+
+.hotspot__bar {
+  grid-area: bar;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.hotspot__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-primary);
+  /* keep the bar colored when printed */
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.hotspot__total {
+  grid-area: total;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Phones: rank | area | total, then the issue type, then the bar */
+@media (max-width: 599px) {
+  .hotspot {
+    grid-template-columns: 32px 1fr auto;
+    grid-template-areas:
+      'rank area total'
+      '.    type type'
+      '.    bar  bar';
+  }
+}
+
+@media print {
+  .hotspot {
+    grid-template-columns: 28px 80px 170px 1fr auto !important;
+    grid-template-areas: 'rank area type bar total' !important;
+    padding: 4px 0;
+    break-inside: avoid;
+  }
+
+  .hotspot__rank {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

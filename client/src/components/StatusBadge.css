@@ -1,0 +1,30 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.status-badge--submitted {
+  background: var(--status-submitted);
+}
+
+.status-badge--underReview {
+  background: var(--status-under-review);
+}
+
+.status-badge--inProgress {
+  background: var(--status-in-progress);
+  /* White on this orange is only 3.5:1 (too low for 14px text);
+     near-black text gives 5.1:1 and keeps the exact orange. */
+  color: var(--status-in-progress-text);
+}
+
+.status-badge--resolved {
+  background: var(--status-resolved);
+}

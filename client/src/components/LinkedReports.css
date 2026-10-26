@@ -1,0 +1,32 @@
+.linked-reports {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linked-reports__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+}
+
+.linked-reports__item .icon {
+  flex-shrink: 0;
+  color: var(--color-secondary);
+}
+
+/* Big enough to tap; the report number never breaks across lines */
+.linked-reports__link {
+  display: inline-block;
+  padding: 10px 0;
+  color: var(--color-secondary);
+  font-weight: 700;
+  white-space: nowrap;
+}

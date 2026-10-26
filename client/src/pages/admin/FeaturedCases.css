@@ -1,0 +1,204 @@
+/* ----- Featured Cases page ----- */
+.featured-page__intro {
+  margin: -8px 0 16px;
+}
+
+.featured-page__notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.featured-page__count {
+  margin: 0 0 12px;
+}
+
+.featured-page__remove-caption {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.featured-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.featured-row {
+  display: grid;
+  grid-template-columns: auto 120px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* Hidden cases look faded (the switch also says "Hidden") */
+.featured-row.is-hidden .featured-row__thumb,
+.featured-row.is-hidden .featured-row__info {
+  opacity: 0.6;
+}
+
+.featured-row__order {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 700;
+}
+
+.featured-row__thumb {
+  display: grid;
+  place-items: center;
+  width: 120px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--color-primary-light);
+  color: var(--color-text-muted);
+}
+
+.featured-row__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured-row__info {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.featured-row__caption {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.featured-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}
+
+.featured-row__warning {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--color-error);
+  font-size: var(--font-small);
+  font-weight: 600;
+}
+
+.featured-row__actions {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
+.featured-row__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.featured-row__icon-btn {
+  min-width: var(--control-height);
+  padding-inline: 0;
+}
+
+.featured-row__remove {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+/* Tablets and phones: photo + text on top, actions below */
+@media (max-width: 900px) {
+  .featured-row {
+    grid-template-columns: auto 96px minmax(0, 1fr);
+  }
+
+  .featured-row__thumb {
+    width: 96px;
+  }
+
+  .featured-row__actions {
+    grid-column: 1 / -1;
+    justify-items: start;
+  }
+
+  .featured-row__buttons {
+    justify-content: flex-start;
+  }
+}
+
+/* ----- "Feature on Landing Page" form ----- */
+.feature-form {
+  display: grid;
+  gap: 16px;
+}
+
+.feature-form__count {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+  text-align: right;
+}
+
+.feature-form__count.is-over {
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.feature-form__photo {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.feature-form__choose {
+  justify-self: start;
+  cursor: pointer;
+}
+
+.feature-form__choose:focus-within {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.feature-form__file {
+  margin: 0;
+  font-size: var(--font-small);
+  overflow-wrap: anywhere;
+}
+
+.feature-form__preview-title {
+  margin: 0 0 4px;
+  font-size: var(--font-body);
+  font-weight: 700;
+}
+
+/* Report Details: "Landing Page" card */
+.featured-card__caption {
+  margin: 0 0 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,45 @@
+.modal {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  box-shadow: 0 12px 40px rgba(31, 41, 51, 0.2);
+}
+
+/* Dim the page behind the dialog */
+.modal::backdrop {
+  background: rgba(31, 41, 51, 0.5);
+}
+
+.modal__title {
+  margin: 0 0 16px;
+  font-size: var(--font-title);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Buttons at the bottom of a dialog */
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.modal__actions .btn {
+  flex: 1 1 160px;
+}
+
+/* Red button for actions like Deactivate */
+.btn--danger {
+  background: var(--color-error);
+  color: #FFFFFF;
+}
+
+.btn--danger:hover:not(:disabled) {
+  background: #8F1C13;
+}

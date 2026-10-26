@@ -1,0 +1,43 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile .page-title {
+  margin-bottom: 0;
+}
+
+/* On staff pages keep the forms at a comfortable reading width */
+.profile--staff {
+  max-width: 640px;
+}
+
+.profile__account {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.profile__account dt {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.profile__account dd {
+  margin: 2px 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.profile__note {
+  margin-top: 12px;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}

@@ -1,0 +1,139 @@
+.generate {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.generate .page-title {
+  margin-bottom: 4px;
+}
+
+/* Filters: one column on phones, one row on wide screens */
+.generate__filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  align-items: end;
+}
+
+@media (min-width: 600px) {
+  .generate__filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktops: dates, issue type, status; then "Overdue only" and the button on the right */
+@media (min-width: 1000px) {
+  .generate__filters {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .generate__button {
+    grid-column: 4;
+  }
+}
+
+.generate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ----- The report itself ----- */
+.report-document {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.report-document__title .section-title {
+  margin-bottom: 8px;
+}
+
+.report-document__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin: 0;
+}
+
+.report-document__filters dt {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.report-document__filters dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.report-document__list .section-title {
+  margin-bottom: 10px;
+}
+
+/* Letterhead (shown only when printing) */
+.report-letterhead {
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.report-letterhead p {
+  margin: 0;
+}
+
+.report-letterhead__barangay {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.report-letterhead__system {
+  font-size: var(--font-body);
+  color: var(--color-text-muted);
+}
+
+@media print {
+  .report-letterhead {
+    display: flex !important;
+  }
+
+  .generate,
+  .report-document {
+    gap: 14px;
+  }
+
+  /* All five summary cards on one row */
+  .summary-cards {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .summary-card {
+    padding: 10px !important;
+    column-gap: 8px !important;
+  }
+
+  .summary-card__icon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .summary-card__value {
+    font-size: 24px !important;
+  }
+
+  /* Charts side by side on paper, each kept whole */
+  .report-document__charts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .report-list-table th,
+  .report-list-table td {
+    padding: 6px 8px !important;
+    font-size: 12px;
+  }
+}

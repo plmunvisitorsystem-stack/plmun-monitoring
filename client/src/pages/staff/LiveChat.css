@@ -1,0 +1,336 @@
+.live-staff__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Available / Away switch (role="switch"; the word is always shown, not only the color) */
+.availability-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 16px 6px 8px;
+  border: 1.5px solid var(--color-input-border);
+  border-radius: 999px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-body);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.availability-switch.is-available {
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+.availability-switch__track {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--status-submitted);
+}
+
+.availability-switch.is-available .availability-switch__track {
+  background: var(--color-primary);
+}
+
+.availability-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: left 0.15s;
+}
+
+.availability-switch.is-available .availability-switch__thumb {
+  left: 21px;
+}
+
+/* Lists on the left, chat window on the right (one column on small screens) */
+.live-staff {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+@media (min-width: 1100px) {
+  .live-staff {
+    grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.live-staff__lists {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.live-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.live-tabs__tab {
+  flex: 1;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-body);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.live-tabs__tab[aria-selected='true'] {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.live-away {
+  margin: 0;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-weight: 600;
+}
+
+.live-queue,
+.live-left,
+.live-mychats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-queue__item {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 8px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.live-queue__item:last-child {
+  border-bottom: 0;
+}
+
+.live-queue__item .btn {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.live-queue__place {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.live-queue__info p {
+  margin: 0;
+}
+
+.live-queue__name {
+  font-weight: 700;
+}
+
+.live-queue__message,
+.live-left__text {
+  margin: 4px 0 0;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  overflow-wrap: anywhere;
+}
+
+.live-left__item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.live-left__item p {
+  margin: 0;
+}
+
+.live-mychats__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: var(--font-body);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.live-mychats__item.is-open {
+  border-color: var(--color-primary);
+}
+
+.live-mychats__new {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-error);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+}
+
+/* ----- Chat window ----- */
+.live-window {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 480px;
+}
+
+.live-window__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.live-window__head .section-title {
+  margin: 0;
+}
+
+.live-reports summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.live-reports__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.live-reports__list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.live-reports__list a,
+.live-reports__id {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.live-reports__list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-secondary);
+}
+
+.live-window__messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 220px;
+  max-height: 420px;
+  margin: 0;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  list-style: none;
+  overflow-y: auto;
+}
+
+.live-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.live-window__form {
+  display: flex;
+  gap: 8px;
+}
+
+.live-window__form .field__control {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Accept dialog: four big choices */
+.wait-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+}
+
+.wait-choices legend {
+  margin-bottom: 8px;
+}
+
+.wait-choices__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--color-input-border);
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.wait-choices__option.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.wait-choices__option input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--color-primary);
+}

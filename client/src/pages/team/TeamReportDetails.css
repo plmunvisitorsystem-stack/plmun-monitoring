@@ -1,0 +1,124 @@
+.team-report__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.team-report__heading .page-title {
+  margin: 0;
+}
+
+.team-report__heading + .alert {
+  margin-bottom: 16px;
+}
+
+/* Phones: stacked. Desktop: report on the left, update form on the right. */
+.team-report {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (min-width: 1100px) {
+  .team-report {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+
+/* Same look as the resident's details list */
+.team-report__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.team-report__list dt {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.team-report__list dd {
+  margin: 2px 0 0;
+}
+
+.team-report .details__text {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.team-report__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.team-report__current {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Right column with more than one card (LGU page) */
+.team-report__side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* Issue type + priority side by side */
+.team-report__tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Blue info box (e.g. the suggested team on the LGU page) */
+.team-report__note {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 4px solid var(--color-secondary);
+  border-radius: 4px;
+  background: #EEF4F9;
+}
+
+.team-report__final-notes {
+  margin-top: 16px;
+}
+
+.team-report__label {
+  margin: 0;
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.team-report__final-notes .details__text {
+  margin: 2px 0 0;
+}
+
+/* "Covers: Purok 1, Purok 2" under the team dropdown (LGU page) */
+.assign__covers {
+  margin-top: -8px;
+}
+
+/* Photos at the bottom of the report card (team + LGU pages) */
+.team-report__photos {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.team-report__photos .team-report__label {
+  margin-bottom: 8px;
+}

@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Secrets - never commit the real .env (use server/.env.example)
+.env
+.env.*
+!.env.example
+*.pem
+
+# Build output
+client/dist/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Uploaded report photos (user data, not source code)
+server/uploads/

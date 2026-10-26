@@ -1,0 +1,165 @@
+.chat-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-schedule .page-title {
+  margin-bottom: 4px;
+}
+
+/* Weekly hours (7 columns) + special dates (5 columns) on wide screens */
+.chat-schedule__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.chat-schedule__weekly,
+.chat-schedule__special {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-schedule__weekly form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 1200px) {
+  .chat-schedule__weekly {
+    grid-column: 1 / span 7;
+  }
+
+  .chat-schedule__special {
+    grid-column: 8 / span 5;
+  }
+}
+
+.chat-schedule__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-schedule__empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-small);
+}
+
+/* ----- Weekly table ----- */
+.schedule-table__day {
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* The day names are row headings: normal text, not the small column labels */
+.staff-theme .schedule-table tbody th {
+  font-size: 14px;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--color-text);
+}
+
+.schedule-table__error {
+  display: block;
+  color: var(--color-error);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: normal;
+}
+
+.schedule-table__time {
+  width: 160px;
+  font-family: var(--font-mono);
+}
+
+.schedule-table tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+.schedule-table tr.is-closed .schedule-table__time {
+  color: var(--color-hint);
+}
+
+.schedule-table .check-field {
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+/* Below 1100px the shared table turns into cards; keep the time inputs readable */
+@media (max-width: 1099px) {
+  .schedule-table tbody th {
+    display: block;
+    padding: 0 0 4px;
+    border: 0;
+  }
+
+  .schedule-table__time {
+    width: 100%;
+  }
+}
+
+/* ----- Special dates ----- */
+.special-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  list-style: none;
+}
+
+.special-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.special-list__item:last-child {
+  border-bottom: 0;
+}
+
+.special-list__item p {
+  margin: 0;
+}
+
+.special-list__date {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.special-list__hours {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.special-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.special-form__choice {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.special-form__times {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}

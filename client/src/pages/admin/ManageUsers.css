@@ -1,0 +1,101 @@
+.manage-users__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.manage-users__heading .page-title {
+  margin: 0;
+}
+
+.manage-users__message {
+  margin-bottom: 16px;
+}
+
+/* Filter bar: one column on phones, one row on wide screens */
+.user-filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  align-items: end;
+}
+
+@media (min-width: 1000px) {
+  .user-filters {
+    grid-template-columns: minmax(200px, 2fr) repeat(2, minmax(170px, 1fr)) auto;
+  }
+}
+
+/* Name with the username under it */
+.user-cell__name {
+  display: block;
+  font-weight: 700;
+}
+
+.user-cell__username {
+  display: block;
+  font-size: var(--font-small);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.user-cell__actions {
+  white-space: nowrap;
+}
+
+/* Smaller table buttons (still 48px tall) */
+.btn--small {
+  padding: 8px 16px;
+  font-size: var(--font-body);
+}
+
+.btn--outline-danger {
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.btn--outline-danger:hover:not(:disabled) {
+  background: var(--color-error-light) !important;
+}
+
+/* Account status: always the word, with a color */
+.account-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+  font-weight: 700;
+}
+
+.account-badge--active {
+  background: var(--status-resolved);
+}
+
+.account-badge--inactive {
+  background: var(--status-submitted);
+}
+
+/* Add / Edit form inside the dialog */
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.user-form .text-muted,
+.user-form__username {
+  margin: 0;
+}
+
+.manage-users__confirm {
+  margin: 0 0 16px;
+}
+
+@media (max-width: 1099px) {
+  .user-cell__actions .btn {
+    width: 100%;
+  }
+}

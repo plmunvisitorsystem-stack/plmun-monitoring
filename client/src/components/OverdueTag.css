@@ -1,0 +1,23 @@
+/* Filled red with square-ish corners: different from the outlined, round
+   priority pill. White on #B42318 has a contrast of 6.5:1. */
+.overdue-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--color-error);
+  color: #FFFFFF;
+  font-size: var(--font-small);
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Status badge + Overdue tag side by side (wrapping on narrow screens) */
+.report-status {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}

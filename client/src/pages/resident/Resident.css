@@ -1,0 +1,137 @@
+/* ----- Home ----- */
+/* Greeting banner on the hall photo (HallPhoto.css), white text */
+.home__banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 160px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: var(--radius);
+}
+
+.home__banner .page-title {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.home__subtitle {
+  margin: 0;
+}
+
+@media (min-width: 600px) {
+  .home__banner {
+    min-height: 180px;
+    padding: 24px 28px;
+  }
+}
+
+/* Large "Report a Concern" button */
+.home__cta {
+  min-height: 64px;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(46, 125, 91, 0.3);
+}
+
+.home__reports {
+  margin-top: 28px;
+}
+
+/* Heading with a link on the right ("My Reports ... View All") */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.section-header .section-title {
+  margin: 0;
+}
+
+.section-header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: var(--control-height);
+  color: var(--color-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-header__link:hover {
+  text-decoration: underline;
+}
+
+/* List of report cards */
+.report-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-title + .report-list {
+  margin-top: 16px;
+}
+
+.load-error {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ----- Report Details ----- */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.details .page-title {
+  margin-bottom: 0;
+}
+
+.details .card__title {
+  margin-bottom: 12px;
+}
+
+.details__notes {
+  margin: 0;
+}
+
+.details__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.details__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0 0;
+}
+
+.details__list dt {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.details__list dd {
+  margin: 2px 0 0;
+}
+
+/* Keep line breaks the resident typed */
+.details__text {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}

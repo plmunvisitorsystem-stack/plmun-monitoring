@@ -1,0 +1,95 @@
+/* TEMPORARY styles for the /preview pages only. */
+.preview-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px var(--gutter) 48px;
+}
+
+.preview-layouts {
+  margin: 24px 0;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preview-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Box that shows the bottom nav / sidebar outside of a full page */
+.preview-frame {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* Let the sidebar fill the preview box instead of its fixed desktop width */
+.preview-frame .sidebar {
+  width: auto;
+}
+
+.preview-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  margin-bottom: 8px;
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.preview-spaced {
+  margin-top: 28px;
+}
+
+.preview-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.preview-stat-number {
+  margin: 12px 0 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Sample report card */
+.sample-report__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sample-report__id {
+  margin: 12px 0 4px;
+  font-size: var(--font-heading);
+  font-weight: 700;
+}
+
+.sample-report__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+
+.sample-report__meta .icon {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,126 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  font-size: var(--font-body);
+  font-weight: 600;
+}
+
+.field__hint {
+  margin: 0;
+  font-size: var(--font-small);
+  color: var(--color-text-muted);
+}
+
+.field__control {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 12px 14px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--font-body); /* 16px also stops iPhones from zooming in */
+}
+
+.field__control::placeholder {
+  color: var(--color-text-muted);
+}
+
+textarea.field__control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.field__control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(46, 125, 91, 0.25);
+}
+
+.field--error .field__control {
+  border-color: var(--color-error);
+}
+
+.field--error .field__control:focus {
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.2);
+}
+
+/* Input + button side by side, joined into one box (used by PasswordInput) */
+.field__group {
+  display: flex;
+}
+
+.field__group .field__control {
+  flex: 1;
+  min-width: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.field__group-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: var(--control-height);
+  padding: 0 14px;
+  border: 1px solid var(--color-input-border);
+  border-left: 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--color-card);
+  color: var(--color-secondary);
+  font: inherit;
+  font-size: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.field__group-button:hover {
+  background: var(--color-bg);
+}
+
+.field--error .field__group-button {
+  border-color: var(--color-error);
+}
+
+/* Native dropdown styled like the inputs */
+select.field__control {
+  cursor: pointer;
+}
+
+.field__error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.field__error .icon {
+  flex-shrink: 0;
+}
+
+/* Big, easy-to-tap checkbox (48px tall like the other controls) */
+.check-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.check-field input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}

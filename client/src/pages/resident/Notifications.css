@@ -1,0 +1,99 @@
+.notifications__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.notifications__header .page-title {
+  margin: 0;
+}
+
+.notifications__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* One notification: icon | message + date | red dot */
+.notification {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: var(--control-height);
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.notification:hover {
+  border-color: var(--color-primary);
+}
+
+/* Unread: light green background and bold message */
+.notification--unread {
+  background: var(--color-primary-light);
+  border-color: #C9E2D5;
+}
+
+.notification--unread .notification__message {
+  font-weight: 700;
+}
+
+.notification__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #FFFFFF;
+  background: var(--color-text-muted);
+}
+
+/* Icon color = color of the status the notification is about */
+.notification__icon--submitted { background: var(--status-submitted); }
+.notification__icon--underReview { background: var(--status-under-review); }
+.notification__icon--inProgress { background: var(--status-in-progress); }
+.notification__icon--resolved { background: var(--status-resolved); }
+.notification__icon--chatReply { background: var(--color-primary); } /* staff reply in live chat */
+
+.notification__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.notification__message {
+  overflow-wrap: break-word;
+}
+
+/* Never split "#2026-0052" across two lines */
+.notification__report-id {
+  white-space: nowrap;
+}
+
+.notification__date {
+  font-size: var(--font-small);
+  color: var(--color-text-muted);
+}
+
+/* Red "unread" dot */
+.notification__dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--color-error);
+}
