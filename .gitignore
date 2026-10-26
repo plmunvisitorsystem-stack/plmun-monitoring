@@ -6,6 +6,9 @@ node_modules/
 .env.*
 !.env.example
 *.pem
+# ...except the database provider's PUBLIC CA certificate (no key inside; it only
+# lets the server check that it talks to the real database).
+!server/certs/*.pem
 
 # Build output (any dist folder, e.g. client/dist/)
 dist/

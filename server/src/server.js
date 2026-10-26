@@ -21,7 +21,7 @@ if (IS_PRODUCTION && jwtSecret.length < 32) {
 
 const http = require('http');
 const app = require('./app');
-const { checkConnection } = require('./config/db');
+const { checkConnection, describeSsl } = require('./config/db');
 const { attachSocket } = require('./realtime/socket');
 const HOTLINES = require('../config/hotlines');
 const { hotlineWarnings } = require('../services/publicInfo');
@@ -36,6 +36,7 @@ server.listen(PORT, async () => {
   console.log(`API server running at http://localhost:${PORT}`);
 
   // Show the database status on startup so problems are easy to spot.
+  console.log(describeSsl());
   const isConnected = await checkConnection();
   console.log(isConnected
     ? 'Database: connected'

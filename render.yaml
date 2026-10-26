@@ -36,8 +36,8 @@ services:
         value: landayan_ers
       - key: DB_SSL
         value: "true"
-      - key: DB_SSL_CA
-        sync: false # the whole ca.pem text from the Aiven service page
+      - key: DB_SSL_CA_FILE
+        value: certs/aiven-ca.pem # Aiven's public CA certificate (in the project; not a secret)
       - key: DB_CONNECTION_LIMIT
         value: "5"
       - key: CLOUDINARY_URL

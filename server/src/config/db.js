@@ -10,23 +10,47 @@
  * The "?" placeholders protect the database from SQL injection.
  */
 const fs = require('fs');
+const path = require('path');
+const { X509Certificate } = require('crypto');
 const mysql = require('mysql2/promise');
 
 /**
  * Encrypted connection for cloud MySQL (e.g. Aiven), set in .env:
  *   DB_SSL=true        -> use SSL
- *   DB_SSL_CA=...      -> the provider's CA certificate (PEM text, "\n" allowed), or
- *   DB_SSL_CA_FILE=... -> the path of the downloaded ca.pem file,
- *                         so the server's identity is checked; without either the
- *                         connection is still encrypted but not verified.
- * Local XAMPP needs none of these.
+ *   DB_SSL_CA_FILE=... -> the provider's CA certificate file, e.g. certs/aiven-ca.pem
+ *                         (a relative path starts at the server folder). Preferred:
+ *                         a CA certificate is public (it holds no key), so it can be
+ *                         in the project and is never damaged by copy-paste.
+ *   DB_SSL_CA=...      -> or the certificate text itself (PEM; used only without a file).
+ * With either, the server's identity is checked; without both the connection
+ * is still encrypted but not verified. Local XAMPP needs none of these.
  */
+const SERVER_DIR = path.resolve(__dirname, '../..');
+
+function caText() {
+  if (process.env.DB_SSL_CA_FILE) return fs.readFileSync(path.resolve(SERVER_DIR, process.env.DB_SSL_CA_FILE), 'utf8');
+  return process.env.DB_SSL_CA || '';
+}
+
 function sslOptions() {
   if (process.env.DB_SSL !== 'true') return undefined;
-  let ca;
-  if (process.env.DB_SSL_CA) ca = normalizePem(process.env.DB_SSL_CA);
-  else if (process.env.DB_SSL_CA_FILE) ca = normalizePem(fs.readFileSync(process.env.DB_SSL_CA_FILE, 'utf8'));
+  const ca = caText() ? normalizePem(caText()) : undefined;
   return ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: false };
+}
+
+/** For the startup log: which CA certificate is used (fingerprints are public), or why none. */
+function describeSsl() {
+  if (process.env.DB_SSL !== 'true') return 'Database SSL: off';
+  try {
+    const text = caText();
+    if (!text) return 'Database SSL: on, certificate NOT checked (no DB_SSL_CA_FILE / DB_SSL_CA)';
+    const certs = normalizePem(text).match(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g) || [];
+    const prints = certs.map((pem) => new X509Certificate(pem).fingerprint256.slice(0, 23));
+    const source = process.env.DB_SSL_CA_FILE ? `file ${process.env.DB_SSL_CA_FILE}` : 'DB_SSL_CA text';
+    return `Database SSL: on, CA from ${source}, ${certs.length} certificate(s), SHA-256 ${prints.join(' / ') || 'none readable'}`;
+  } catch (error) {
+    return `Database SSL: CA certificate could not be read (${error.message})`;
+  }
 }
 
 /**
@@ -86,4 +110,4 @@ async function checkConnection() {
   }
 }
 
-module.exports = { pool, checkConnection, sslOptions, normalizePem };
+module.exports = { pool, checkConnection, sslOptions, normalizePem, describeSsl };
