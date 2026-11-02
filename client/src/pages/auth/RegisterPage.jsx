@@ -75,7 +75,7 @@ export default function RegisterPage() {
     <AuthLayout>
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
         <div>
-          <h2 className="auth-form__heading">{t('actions.createAccount')}</h2>
+          <h1 className="auth-form__heading">{t('actions.createAccount')}</h1>
           <p className="text-muted">{t('auth.registerIntro')}</p>
         </div>
 

@@ -60,7 +60,7 @@ export default function ReportDetailsPage() {
   }
 
   return (
-    <ResidentLayout activeKey="home">
+    <ResidentLayout activeKey="home" wide>
       <BackLink to={backTo} />
 
       {loading && <p className="text-muted" role="status">{t('common.loading')}</p>}
@@ -74,71 +74,77 @@ export default function ReportDetailsPage() {
             <h1 className="page-title">{formatReportId(report.id, report.dateSubmitted)}</h1>
           </div>
 
-          <Card>
-            <div className="details__top">
-              <IssueTypeIcon type={report.issueType} />
-              <ReportStatus status={report.status} isOverdue={report.isOverdue} />
+          <div className="details__columns">
+            <div className="details__column">
+              <Card>
+                <div className="details__top">
+                  <IssueTypeIcon type={report.issueType} />
+                  <ReportStatus status={report.status} isOverdue={report.isOverdue} />
+                </div>
+                <dl className="details__list">
+                  <div>
+                    <dt>{t('fields.area')}</dt>
+                    <dd>{report.area}</dd>
+                  </div>
+                  <div>
+                    <dt>{t('fields.streetLandmark')}</dt>
+                    <dd>{report.location}</dd>
+                  </div>
+                  <div>
+                    <dt>{t('fields.description')}</dt>
+                    <dd className="details__text">{report.description}</dd>
+                  </div>
+                  <div>
+                    <dt>{t('reportDetails.dateSubmitted')}</dt>
+                    <dd>{formatDateTime(report.dateSubmitted, language)}</dd>
+                  </div>
+                </dl>
+                <LinkedReports reports={report.linkedReports} basePath="/reports" />
+              </Card>
+
+              <Card title={t('photos.title')}>
+                <PhotoGallery photos={report.photos || []} />
+              </Card>
             </div>
-            <dl className="details__list">
-              <div>
-                <dt>{t('fields.area')}</dt>
-                <dd>{report.area}</dd>
-              </div>
-              <div>
-                <dt>{t('fields.streetLandmark')}</dt>
-                <dd>{report.location}</dd>
-              </div>
-              <div>
-                <dt>{t('fields.description')}</dt>
-                <dd className="details__text">{report.description}</dd>
-              </div>
-              <div>
-                <dt>{t('reportDetails.dateSubmitted')}</dt>
-                <dd>{formatDateTime(report.dateSubmitted, language)}</dd>
-              </div>
-            </dl>
-            <LinkedReports reports={report.linkedReports} basePath="/reports" />
-          </Card>
 
-          <Card title={t('photos.title')}>
-            <PhotoGallery photos={report.photos || []} />
-          </Card>
+            <div className="details__column">
+              <Card title={t('reportDetails.statusTitle')}>
+                <StatusTimeline status={report.status} />
+              </Card>
 
-          <Card title={t('reportDetails.statusTitle')}>
-            <StatusTimeline status={report.status} />
-          </Card>
+              {report.resolutionNotes && (
+                <Card title={t('reportDetails.resolutionNotes')}>
+                  <p className="details__text details__notes">{report.resolutionNotes}</p>
+                </Card>
+              )}
 
-          {report.resolutionNotes && (
-            <Card title={t('reportDetails.resolutionNotes')}>
-              <p className="details__text details__notes">{report.resolutionNotes}</p>
-            </Card>
-          )}
+              {report.feedback && (
+                <Card title={t('feedback.yourFeedback')}>
+                  <div className="your-feedback__rating">
+                    <RatingStars rating={report.feedback.rating} size={28} />
+                    <span className="your-feedback__label">
+                      {t('feedback.yourRating', {
+                        label: t(`feedback.ratings.${report.feedback.rating}`),
+                        rating: report.feedback.rating,
+                      })}
+                    </span>
+                  </div>
+                  {report.feedback.comments && <p className="your-feedback__comments">{report.feedback.comments}</p>}
+                </Card>
+              )}
 
-          {report.feedback && (
-            <Card title={t('feedback.yourFeedback')}>
-              <div className="your-feedback__rating">
-                <RatingStars rating={report.feedback.rating} size={28} />
-                <span className="your-feedback__label">
-                  {t('feedback.yourRating', {
-                    label: t(`feedback.ratings.${report.feedback.rating}`),
-                    rating: report.feedback.rating,
-                  })}
-                </span>
-              </div>
-              {report.feedback.comments && <p className="your-feedback__comments">{report.feedback.comments}</p>}
-            </Card>
-          )}
-
-          {canGiveFeedback && (
-            <Link
-              to={`/reports/${report.id}/feedback`}
-              state={{ from: location.state?.from }}
-              className="btn btn--primary btn--full"
-            >
-              <Icon name="star" />
-              <span>{t('reportDetails.giveFeedback')}</span>
-            </Link>
-          )}
+              {canGiveFeedback && (
+                <Link
+                  to={`/reports/${report.id}/feedback`}
+                  state={{ from: location.state?.from }}
+                  className="btn btn--primary btn--full"
+                >
+                  <Icon name="star" />
+                  <span>{t('reportDetails.giveFeedback')}</span>
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </ResidentLayout>

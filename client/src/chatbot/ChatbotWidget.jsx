@@ -12,6 +12,8 @@ import BotAnswer from './BotAnswer';
 import LiveChatView from './LiveChatView';
 import LeftMessages from './LeftMessages';
 import { useLanguage } from '../i18n/useLanguage';
+import '../components/Input.css';
+import '../components/Button.css';
 import './Chatbot.css';
 
 const TEXT_MAX = 500;

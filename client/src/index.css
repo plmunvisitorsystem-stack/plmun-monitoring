@@ -34,8 +34,18 @@
   --font-small: 14px;      /* secondary text (never smaller than this) */
   --font-button: 18px;     /* buttons, semibold */
   --font-heading: 20px;    /* card and section headings */
-  --font-title: 26px;      /* page titles on phones */
+  --font-title: 24px;      /* page titles on phones */
   --font-title-lg: 28px;   /* page titles on desktop */
+
+  /* ----- Spacing scale: use these instead of new numbers ----- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
   /* ----- Shape and sizes ----- */
   --radius: 12px;
@@ -117,6 +127,42 @@ body {
   .page-title {
     font-size: var(--font-title-lg);
   }
+}
+
+/* Keyboard users can jump past the navigation (components/SkipLink.jsx). */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+main:focus {
+  outline: none;
+}
+
+/* People who ask for reduced motion get none. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* "Loading..." while a page's code downloads (App.jsx) */

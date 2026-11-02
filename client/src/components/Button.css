@@ -18,6 +18,12 @@
   transition: background-color 0.15s, border-color 0.15s;
 }
 
+.btn .icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
 .btn--full {
   display: flex;
   width: 100%;

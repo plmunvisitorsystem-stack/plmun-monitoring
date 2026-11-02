@@ -1,7 +1,7 @@
 .issue-type {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2);
   font-weight: 600;
 }
 
@@ -9,9 +9,14 @@
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius);
   background: var(--color-primary-light);
   color: var(--color-primary);
+}
+
+.issue-type__icon .icon {
+  width: 20px;
+  height: 20px;
 }

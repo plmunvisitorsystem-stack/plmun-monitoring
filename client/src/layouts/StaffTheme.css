@@ -61,6 +61,41 @@
   font-weight: 600;
 }
 
+/* The top bar already shows the page name, so the H1 stays for screen readers only.
+   Report Details keeps it: there it is the report ID. */
+.staff-theme .page-title:not(.team-report__heading .page-title) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.staff-theme .manage-users__heading {
+  justify-content: flex-end;
+}
+
+/* Issue type in tables and details: plain icon and word */
+.staff-theme .issue-type__icon {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  color: var(--color-text-muted);
+}
+
+.staff-theme .issue-type__icon .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.staff-theme .issue-type__label {
+  font-weight: 500;
+}
+
 .staff-theme .section-title,
 .staff-theme .card__title {
   font-size: 16px;
@@ -132,6 +167,11 @@
   border-radius: 4px;
   font-size: 15px;
   font-weight: 500;
+}
+
+.staff-theme .btn .icon {
+  width: 16px;
+  height: 16px;
 }
 
 .staff-theme .btn--primary {
@@ -333,6 +373,32 @@
   font-size: 14px;
 }
 
+/* A word is enough in a row of the same action */
+.staff-theme .team-table__view .icon {
+  display: none;
+}
+
+/* Row actions stay quiet so a table is not a column of solid green */
+.staff-theme .team-table .btn--primary {
+  border-color: #15803D;
+  background: #FFFFFF;
+  color: #15803D;
+}
+
+.staff-theme .team-table .btn--primary:hover:not(:disabled) {
+  background: var(--color-primary-light);
+  color: #166534;
+}
+
+/* Filter buttons: only as wide as their word, at the end of the bar */
+@media (min-width: 600px) {
+  .staff-theme .team-filters__button,
+  .staff-theme .generate__button {
+    justify-self: end;
+    width: auto;
+  }
+}
+
 /* Numbers and dates line up on the right (real table layout only) */
 @media (min-width: 1100px) {
   .staff-theme .team-table .team-table__date,
@@ -352,6 +418,34 @@
   font-size: 12px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+/* Label beside its value, so a report fits on one phone screen */
+@media (max-width: 1099px) {
+  .staff-theme .team-table-wrap {
+    border: 0;
+  }
+
+  .staff-theme .team-table tr {
+    padding: 8px 16px 12px;
+  }
+
+  .staff-theme .team-table td {
+    padding: 6px 0;
+    border-bottom: 0;
+  }
+
+  .staff-theme .team-table td[data-label] {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+  }
+
+  .staff-theme .team-table td[data-label] > * {
+    grid-column: 2;
+    justify-self: start;
+  }
 }
 
 /* ----- Alerts: white with a 3px colored left border ----- */
@@ -382,10 +476,44 @@
   font-size: 14px;
 }
 
+.staff-theme .team-report__note + .btn {
+  margin-top: 12px;
+}
+
 /* Report ID as the page heading (Report Details) */
 .staff-theme .team-report__heading .page-title {
   font-family: var(--font-mono);
   font-weight: 500;
+}
+
+/* Report facts on wide screens: label beside its value */
+@media (min-width: 1100px) {
+  .staff-theme .team-report__list > div {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .staff-theme .team-report__list dd {
+    margin: 0;
+  }
+}
+
+.staff-theme .timeline__tag {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--step-color-light);
+  color: var(--step-text, var(--step-color));
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.staff-theme .timeline__step--inProgress {
+  --step-text: var(--status-in-progress-text);
+}
+
+.staff-theme .timeline__step--submitted {
+  --step-text: #4B5563;
 }
 
 /* Dashboard alerts: overdue (red) and unassigned (orange) */
@@ -574,24 +702,36 @@
   }
 }
 
+/* Counts: one strip with lines between the cells, not five separate tiles.
+   Phones: Total on its own row, then two columns. */
 .staff-theme .summary-cards {
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid #D4DDD4;
+  border-radius: 4px;
+  background: #D4DDD4;
 }
 
-@media (min-width: 1200px) {
+.staff-theme .summary-card:first-child {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 700px) {
   .staff-theme .summary-cards {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .staff-theme .summary-card:first-child {
+    grid-column: auto;
   }
 }
 
 .staff-theme .summary-card {
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 8px;
-  row-gap: 6px;
-  padding: 16px;
-  border: 1px solid #D4DDD4;
-  border-radius: 4px;
+  display: block;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 0;
   box-shadow: none;
 }
 
@@ -599,26 +739,47 @@
   --card-color: #15803D;
 }
 
-/* Small colored line icon next to the label (the label says the status) */
 .staff-theme .summary-card__icon {
-  grid-row: 1;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  background: none;
-  color: var(--card-color);
+  display: none;
 }
 
-.staff-theme .summary-card__icon .icon {
-  width: 16px;
-  height: 16px;
+/* Same colored dot as the status badges (the label says the status) */
+.staff-theme .summary-card__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.staff-theme .summary-card__label::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--card-color);
+}
+
+.staff-theme .summary-card--total .summary-card__label::before {
+  display: none;
 }
 
 .staff-theme .summary-card__value {
-  grid-column: 1 / -1;
-  font-size: 28px;
+  display: block;
+  margin-top: 4px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1.1;
+}
+
+/* Overdue and unassigned alerts share a row when both show */
+@media (min-width: 1200px) {
+  .staff-theme .dashboard:has(.overdue-alert):has(.unassigned-card) > .overdue-alert {
+    grid-column: 1 / span 6;
+  }
+
+  .staff-theme .dashboard:has(.overdue-alert):has(.unassigned-card) > .unassigned-card {
+    grid-column: 7 / span 6;
+  }
 }
 
 .staff-theme .donut__total {
@@ -663,6 +824,15 @@
 .staff-theme .rate-card__value {
   font-size: 28px;
   font-weight: 500;
+}
+
+.staff-theme .rate-card__bar,
+.staff-theme .rate-card__bar span {
+  border-radius: 2px;
+}
+
+.staff-theme .rate-card__bar {
+  height: 8px;
 }
 
 /* Live Chat: Available / Away switch and "new" counters without pill shapes */

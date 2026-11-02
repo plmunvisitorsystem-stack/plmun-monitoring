@@ -33,7 +33,10 @@
     "registerIntro": "For residents of Barangay Landayan.",
     "loggingIn": "Logging in...",
     "creatingAccount": "Creating account...",
-    "registered": "Account created! You can now log in."
+    "registered": "Account created! You can now log in.",
+    "loginTitle": "Log in to your account",
+    "panelText": "Report environmental concerns in your purok and follow the barangay's response.",
+    "backHome": "Back to home page"
   },
   "errors": {
     "FIELD_REQUIRED": "This field is required.",
@@ -57,8 +60,8 @@
     "FORBIDDEN": "You do not have access to this page.",
     "NOT_FOUND": "The item you are looking for was not found.",
     "INVALID_JSON": "The data sent was not valid. Please try again.",
-    "NETWORK_ERROR": "Cannot reach the server. Check your connection and try again.",
-    "SERVER_ERROR": "Something went wrong on the server. Please try again.",
+    "NETWORK_ERROR": "We couldn't reach the server. Please check your internet connection and try again.",
+    "SERVER_ERROR": "We couldn't finish that because of a problem on our side. Please try again in a moment.",
     "RATING_REQUIRED": "Please choose a rating from 1 to 5 stars.",
     "COMMENT_TOO_LONG": "Comments must be 500 characters or fewer.",
     "INVALID_COMMENT": "Comments must be text.",
@@ -165,13 +168,19 @@
     "loading": "Loading...",
     "tryAgain": "Try Again",
     "back": "Back",
-    "none": "—"
+    "none": "—",
+    "skipToContent": "Skip to main content"
   },
   "home": {
     "greeting": "Good day, {name}!",
-    "subtitle": "Together for a cleaner and safer Barangay Landayan",
+    "subtitle": "Here is the latest on the concerns you reported.",
     "myReports": "My Reports",
-    "viewAll": "View All"
+    "viewAll": "View All",
+    "nextTitle": "What happens after you report",
+    "nextSubmitted": "The barangay has received your report.",
+    "nextUnderReview": "A response team has been assigned to it.",
+    "nextInProgress": "The team is working on the concern.",
+    "nextResolved": "The concern is fixed. You can rate how it was handled."
   },
   "submitReport": {
     "title": "Report an Environmental Concern",
@@ -183,7 +192,11 @@
     "successText": "Thank you for your report. Your reference number is:",
     "backToHome": "Back to Home",
     "chooseArea": "Choose your purok",
-    "similarNotice": "A similar report was already submitted in this area on {date}. You can still submit your report."
+    "similarNotice": "A similar report was already submitted in this area on {date}. You can still submit your report.",
+    "stepWhat": "What is the concern?",
+    "stepWhere": "Where is it?",
+    "stepDetails": "Tell us what you see",
+    "nextText": "The barangay will review your report and assign a response team. You will be notified each time its status changes."
   },
   "photos": {
     "sectionTitle": "Photos (optional, up to {max})",
@@ -220,8 +233,8 @@
     "markAllRead": "Mark all as read",
     "unread": "Unread",
     "unreadCount": "{count} unread",
-    "emptyTitle": "No notifications yet",
-    "emptyMessage": "Updates about your reports will appear here.",
+    "emptyTitle": "No notifications to show",
+    "emptyMessage": "You will be notified here whenever the status of your report changes.",
     "messages": {
       "submitted": "Your report {id} has been submitted.",
       "underReview": "Your report {id} is now under review.",
@@ -297,7 +310,7 @@
     "pageOf": "Page {page} of {pages}",
     "previous": "Previous",
     "next": "Next",
-    "emptyTitle": "No reports found",
+    "emptyTitle": "No reports match your search",
     "emptyMessage": "Try a different search or filter."
   },
   "teamReport": {
@@ -347,7 +360,7 @@
     "activateUser": "Activate {name}",
     "deactivateUser": "Deactivate {name}",
     "showing": "Showing {count} users",
-    "emptyTitle": "No users found",
+    "emptyTitle": "No matching users found",
     "confirmTitle": "Deactivate this account?",
     "confirmMessage": "{name} will no longer be able to log in until the account is activated again.",
     "cancel": "Cancel",
@@ -392,8 +405,8 @@
     "rangeTo": "Until {to}"
   },
   "empty": {
-    "noReportsTitle": "No reports yet",
-    "noReportsMessage": "Reports you submit will appear here."
+    "noReportsTitle": "You haven't submitted any reports yet",
+    "noReportsMessage": "Send your first report and you can follow its progress here."
   },
   "dashboard": {
     "overview": "Overview of reports in Barangay Landayan.",
@@ -781,16 +794,33 @@
   },
   "landing": {
     "brand": "Barangay Landayan",
-    "intro": "Report waste, pollution, flooding and other hazards in your area, and follow the barangay's response.",
+    "intro": "Tell the barangay about uncollected garbage, pollution, flooding, and other hazards in your area, then follow its response from your phone.",
     "casesTitle": "Resolved Cases",
     "casesIntro": "Recent concerns the barangay has resolved.",
-    "noCases": "Resolved cases will appear here soon.",
     "loadError": "The resolved cases could not be loaded right now.",
     "carousel": "slideshow",
     "slide": "slide",
     "slideOf": "{n} of {total}",
     "previous": "Previous case",
     "next": "Next case",
-    "goTo": "Show case {n}"
+    "goTo": "Show case {n}",
+    "navHow": "How it works",
+    "navReport": "What you can report",
+    "navContact": "Contact",
+    "heroTitle": "Report environmental concerns in Barangay Landayan",
+    "submitReport": "Submit a Report",
+    "heroEmergency": "In an emergency, do not use this form.",
+    "heroEmergencyLink": "See the emergency hotlines",
+    "howTitle": "How reporting works",
+    "howStep1Title": "Create your account",
+    "howStep1": "Register with your name, address, and mobile number.",
+    "howStep2Title": "Send your report",
+    "howStep2": "Choose the type of concern, say where it is, and add photos if you can.",
+    "howStep3Title": "The barangay assigns a team",
+    "howStep3": "The LGU reviews your report and assigns the response team that covers your purok.",
+    "howStep4Title": "Follow the progress",
+    "howStep4": "You are notified each time the status changes, until the concern is resolved.",
+    "reportTitle": "What you can report",
+    "footerNote": "This service is for environmental concerns that are not emergencies."
   }
 }

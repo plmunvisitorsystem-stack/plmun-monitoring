@@ -177,13 +177,14 @@ export default function SubmitReportPage() {
       <ResidentLayout>
         <div className="submit-success">
           <span className="submit-success__icon">
-            <Icon name="checkCircle" size={80} />
+            <Icon name="checkCircle" size={48} />
           </span>
           <h1 className="page-title" tabIndex={-1} ref={successHeadingRef}>
             {t('messages.reportSubmitted')}
           </h1>
           <p>{t('submitReport.successText')}</p>
           <p className="submit-success__id">{formatReportId(createdReport.id, createdReport.dateSubmitted)}</p>
+          <p className="submit-success__next">{t('submitReport.nextText')}</p>
           <Button
             fullWidth
             onClick={() => navigate(`/reports/${createdReport.id}`, { state: { from: '/home' } })}
@@ -208,12 +209,16 @@ export default function SubmitReportPage() {
       <form className="submit-form" onSubmit={handleSubmit} noValidate>
         {errorCode && <Alert type="error">{t(`errors.${errorCode}`, limitValues)}</Alert>}
 
-        {/* Issue type: 2x2 grid of large buttons (radio buttons underneath) */}
-        <fieldset className="issue-picker">
-          <legend className="field__label">{t('submitReport.issueType')}</legend>
+        {/* Step 1. Issue type: large options (radio buttons underneath) with an example of each */}
+        <fieldset className="issue-picker submit-step">
+          <legend className="submit-step__title">
+            <span className="submit-step__number" aria-hidden="true">1</span>
+            {t('submitReport.stepWhat')}
+          </legend>
           <div className="issue-picker__grid">
             {ISSUE_TYPES.map((type) => {
               const selected = form.issueType === type;
+              const key = ISSUE_TYPE_KEYS[type];
               return (
                 <label key={type} className={`issue-picker__option ${selected ? 'is-selected' : ''}`}>
                   <input
@@ -224,8 +229,11 @@ export default function SubmitReportPage() {
                     onChange={handleChange}
                     className="visually-hidden"
                   />
-                  <Icon name={ISSUE_TYPE_ICONS[type]} size={36} />
-                  <span>{t(`issueType.${ISSUE_TYPE_KEYS[type]}`)}</span>
+                  <Icon name={selected ? 'checkCircle' : ISSUE_TYPE_ICONS[type]} size={24} />
+                  <span className="issue-picker__text">
+                    <span className="issue-picker__name">{t(`issueType.${key}`)}</span>
+                    <span className="issue-picker__example">{t(`chatbot.answers.whatToReport.${key}`)}</span>
+                  </span>
                 </label>
               );
             })}
@@ -233,117 +241,131 @@ export default function SubmitReportPage() {
           {issueTypeError && <p className="field__error">{issueTypeError}</p>}
         </fieldset>
 
-        <div>
-          <Select
-            label={t('fields.area')}
-            name="area"
-            value={form.area}
-            onChange={(event) => {
-              handleChange(event);
-              setTouched((current) => ({ ...current, area: true }));
-            }}
-            onBlur={handleBlur}
-            options={[{ value: '', label: t('submitReport.chooseArea') }, ...areas.map((area) => ({ value: area, label: area }))]}
-          />
-          {fieldError('area') && <p className="field__error">{fieldError('area')}</p>}
-        </div>
-
-        {similarDate && (
-          <Alert type="info">{t('submitReport.similarNotice', { date: formatDate(similarDate, language) })}</Alert>
-        )}
-
-        <Input
-          label={t('fields.streetLandmark')}
-          hint={t('fields.streetHint')}
-          name="location"
-          maxLength={LOCATION_MAX}
-          value={form.location}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={fieldError('location')}
-        />
-
-        <div>
-          <Input
-            label={t('fields.description')}
-            hint={t('submitReport.descriptionHint')}
-            name="description"
-            multiline
-            rows={5}
-            maxLength={DESCRIPTION_MAX}
-            placeholder={t('fields.descriptionPlaceholder')}
-            value={form.description}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            error={fieldError('description')}
-          />
-          <p className="char-counter">
-            {t('submitReport.characterCount', { count: form.description.length, max: DESCRIPTION_MAX })}
-          </p>
-        </div>
-
-        {/* ----- Photos (optional): camera or gallery, up to limits.max ----- */}
-        <fieldset className="photo-picker">
-          <legend className="field__label">{t('photos.sectionTitle', limitValues)}</legend>
-          <div className="photo-picker__buttons">
-            {/* A <label> wrapping a hidden file input opens the camera / gallery when tapped. */}
-            <label className={`btn btn--outline photo-picker__button ${photos.length >= limits.max ? 'is-disabled' : ''}`}>
-              <Icon name="camera" size={28} />
-              <span>{t('photos.takePhoto')}</span>
-              <input
-                type="file"
-                accept="image/jpeg,image/png"
-                capture="environment"
-                className="visually-hidden"
-                onChange={addPhotos}
-                disabled={photos.length >= limits.max}
-              />
-            </label>
-            <label className={`btn btn--outline photo-picker__button ${photos.length >= limits.max ? 'is-disabled' : ''}`}>
-              <Icon name="image" size={28} />
-              <span>{t('photos.chooseGallery')}</span>
-              <input
-                type="file"
-                accept="image/jpeg,image/png"
-                multiple
-                className="visually-hidden"
-                onChange={addPhotos}
-                disabled={photos.length >= limits.max}
-              />
-            </label>
+        {/* Step 2. Where */}
+        <section className="submit-step" aria-labelledby="submit-step-where">
+          <h2 id="submit-step-where" className="submit-step__title">
+            <span className="submit-step__number" aria-hidden="true">2</span>
+            {t('submitReport.stepWhere')}
+          </h2>
+          <div>
+            <Select
+              label={t('fields.area')}
+              name="area"
+              value={form.area}
+              onChange={(event) => {
+                handleChange(event);
+                setTouched((current) => ({ ...current, area: true }));
+              }}
+              onBlur={handleBlur}
+              options={[{ value: '', label: t('submitReport.chooseArea') }, ...areas.map((area) => ({ value: area, label: area }))]}
+            />
+            {fieldError('area') && <p className="field__error">{fieldError('area')}</p>}
           </div>
 
-          <p className="photo-picker__count" aria-live="polite">
-            {t('photos.count', { count: photos.length, max: limits.max })}
-          </p>
-          {photoError && (
-            <p className="field__error" role="alert">
-              <Icon name="alertCircle" size={18} />
-              <span>{t(`errors.${photoError}`, limitValues)}</span>
+          {similarDate && (
+            <Alert type="info">{t('submitReport.similarNotice', { date: formatDate(similarDate, language) })}</Alert>
+          )}
+
+          <Input
+            label={t('fields.streetLandmark')}
+            hint={t('fields.streetHint')}
+            name="location"
+            maxLength={LOCATION_MAX}
+            value={form.location}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={fieldError('location')}
+          />
+        </section>
+
+        {/* Step 3. Description and photos */}
+        <section className="submit-step" aria-labelledby="submit-step-details">
+          <h2 id="submit-step-details" className="submit-step__title">
+            <span className="submit-step__number" aria-hidden="true">3</span>
+            {t('submitReport.stepDetails')}
+          </h2>
+          <div>
+            <Input
+              label={t('fields.description')}
+              hint={t('submitReport.descriptionHint')}
+              name="description"
+              multiline
+              rows={5}
+              maxLength={DESCRIPTION_MAX}
+              placeholder={t('fields.descriptionPlaceholder')}
+              value={form.description}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={fieldError('description')}
+            />
+            <p className="char-counter">
+              {t('submitReport.characterCount', { count: form.description.length, max: DESCRIPTION_MAX })}
             </p>
-          )}
+          </div>
 
-          {photos.length > 0 && (
-            <ul className="photo-picker__thumbs">
-              {photos.map((photo, index) => (
-                <li key={photo.key} className="photo-picker__thumb">
-                  <img src={photo.url} alt={t('photos.alt', { n: index + 1 })} />
-                  <button
-                    type="button"
-                    className="photo-picker__remove"
-                    onClick={() => removePhoto(photo.key)}
-                    aria-label={t('photos.removeLabel', { n: index + 1 })}
-                  >
-                    <Icon name="close" size={18} />
-                    <span>{t('photos.remove')}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </fieldset>
+          {/* ----- Photos (optional): camera or gallery, up to limits.max ----- */}
+          <fieldset className="photo-picker">
+            <legend className="field__label">{t('photos.sectionTitle', limitValues)}</legend>
+            <div className="photo-picker__buttons">
+              {/* A <label> wrapping a hidden file input opens the camera / gallery when tapped. */}
+              <label className={`btn btn--outline photo-picker__button ${photos.length >= limits.max ? 'is-disabled' : ''}`}>
+                <Icon name="camera" size={22} />
+                <span>{t('photos.takePhoto')}</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  capture="environment"
+                  className="visually-hidden"
+                  onChange={addPhotos}
+                  disabled={photos.length >= limits.max}
+                />
+              </label>
+              <label className={`btn btn--outline photo-picker__button ${photos.length >= limits.max ? 'is-disabled' : ''}`}>
+                <Icon name="image" size={22} />
+                <span>{t('photos.chooseGallery')}</span>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  multiple
+                  className="visually-hidden"
+                  onChange={addPhotos}
+                  disabled={photos.length >= limits.max}
+                />
+              </label>
+            </div>
 
-        <div>
+            <p className="photo-picker__count" aria-live="polite">
+              {t('photos.count', { count: photos.length, max: limits.max })}
+            </p>
+            {photoError && (
+              <p className="field__error" role="alert">
+                <Icon name="alertCircle" size={18} />
+                <span>{t(`errors.${photoError}`, limitValues)}</span>
+              </p>
+            )}
+
+            {photos.length > 0 && (
+              <ul className="photo-picker__thumbs">
+                {photos.map((photo, index) => (
+                  <li key={photo.key} className="photo-picker__thumb">
+                    <img src={photo.url} alt={t('photos.alt', { n: index + 1 })} />
+                    <button
+                      type="button"
+                      className="photo-picker__remove"
+                      onClick={() => removePhoto(photo.key)}
+                      aria-label={t('photos.removeLabel', { n: index + 1 })}
+                    >
+                      <Icon name="close" size={18} />
+                      <span>{t('photos.remove')}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </fieldset>
+        </section>
+
+        <div className="submit-form__actions">
           <Button type="submit" fullWidth disabled={!isValid || submitting}>
             {submitting ? t('submitReport.submitting') : t('actions.submitReport')}
           </Button>

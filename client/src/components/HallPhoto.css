@@ -26,13 +26,13 @@
 }
 
 /* Dark green (#1A2E1A) to green (#2E7D5B) at about 75%.
-   The dark part reaches 80% down so white text on the brightest parts of the
-   photo still passes WCAG AA (checked at 390px and 1440px: at least 4.8:1). */
+   The dark part reaches 92% down so white text on the brightest parts of the
+   photo still passes WCAG AA, down to the last line of the landing hero. */
 .hall-bg__overlay {
   background: linear-gradient(
     180deg,
     rgba(26, 46, 26, 0.78) 0%,
-    rgba(26, 46, 26, 0.75) 80%,
+    rgba(26, 46, 26, 0.75) 92%,
     rgba(46, 125, 91, 0.75) 100%
   );
 }

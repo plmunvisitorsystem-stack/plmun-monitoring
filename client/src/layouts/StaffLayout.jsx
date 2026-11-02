@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Sidebar, { MENUS } from '../components/Sidebar';
 import StaffTopBar from '../components/StaffTopBar';
+import SkipLink from '../components/SkipLink';
 import { useAuth } from '../auth/useAuth';
 import { useLanguage } from '../i18n/useLanguage';
 import './StaffLayout.css';
@@ -44,6 +45,7 @@ export default function StaffLayout({ role, onLogout, activeKey, children }) {
 
   return (
     <div className="staff-layout staff-theme">
+      <SkipLink />
       <Sidebar
         role={role}
         onLogout={onLogout || (() => logout())}
@@ -53,7 +55,7 @@ export default function StaffLayout({ role, onLogout, activeKey, children }) {
       />
       <div className="staff-layout__body">
         <StaffTopBar role={role} title={titleKey ? t(`nav.${titleKey}`) : ''} menuOpen={menuOpen} onMenu={() => setMenuOpen(true)} />
-        <main className="staff-layout__main">
+        <main id="main-content" tabIndex={-1} className="staff-layout__main">
           <div className="staff-layout__content">{children}</div>
         </main>
       </div>

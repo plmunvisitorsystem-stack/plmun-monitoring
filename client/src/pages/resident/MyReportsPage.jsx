@@ -4,6 +4,7 @@
  * reports that are not Resolved and older than OVERDUE_DAYS days.
  */
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ResidentLayout from '../../layouts/ResidentLayout';
 import BackLink from '../../components/BackLink';
 import ReportCard from '../../components/ReportCard';
@@ -12,6 +13,7 @@ import LoadError from '../../components/LoadError';
 import { useLanguage } from '../../i18n/useLanguage';
 import { useApiData } from '../../hooks/useApiData';
 import '../../components/Input.css';
+import '../../components/Button.css';
 import './Resident.css';
 
 export default function MyReportsPage() {
@@ -22,7 +24,7 @@ export default function MyReportsPage() {
   const reports = overdueOnly ? allReports.filter((report) => report.isOverdue) : allReports;
 
   return (
-    <ResidentLayout activeKey="home">
+    <ResidentLayout activeKey="home" wide>
       <BackLink to="/home" />
       <h1 className="page-title">{t('home.myReports')}</h1>
       {allReports.length > 0 && (
@@ -35,7 +37,15 @@ export default function MyReportsPage() {
       {loading && <p className="text-muted" role="status">{t('common.loading')}</p>}
       {!loading && errorCode && <LoadError code={errorCode} onRetry={reload} />}
       {!loading && !errorCode && allReports.length === 0 && (
-        <EmptyState title={t('empty.noReportsTitle')} message={t('empty.noReportsMessage')} />
+        <EmptyState
+          title={t('empty.noReportsTitle')}
+          message={t('empty.noReportsMessage')}
+          action={
+            <Link to="/report" className="btn btn--primary">
+              {t('actions.reportConcern')}
+            </Link>
+          }
+        />
       )}
       {!loading && !errorCode && allReports.length > 0 && reports.length === 0 && (
         <EmptyState icon="checkCircle" title={t('overdue.noneTitle')} message={t('overdue.noneMessage')} />

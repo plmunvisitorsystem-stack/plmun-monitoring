@@ -60,6 +60,7 @@ export default function LoginPage() {
   return (
     <AuthLayout priorityPhoto>
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
+        <h1 className="auth-form__heading">{t('auth.loginTitle')}</h1>
         {notice === 'REGISTERED' && <Alert type="success">{t('auth.registered')}</Alert>}
         {notice && notice !== 'REGISTERED' && !errorCode && <Alert type="error">{t(`errors.${notice}`)}</Alert>}
         {errorCode && <Alert type="error">{t(`errors.${errorCode}`)}</Alert>}

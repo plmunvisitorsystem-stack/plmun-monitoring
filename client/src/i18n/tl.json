@@ -33,7 +33,10 @@
     "registerIntro": "Para sa mga residente ng Barangay Landayan.",
     "loggingIn": "Nagla-log in...",
     "creatingAccount": "Ginagawa ang account...",
-    "registered": "Nagawa na ang account! Puwede ka nang mag-log in."
+    "registered": "Nagawa na ang account! Puwede ka nang mag-log in.",
+    "loginTitle": "Mag-log in sa iyong account",
+    "panelText": "Iulat ang mga problemang pangkapaligiran sa inyong purok at subaybayan ang tugon ng barangay.",
+    "backHome": "Bumalik sa home page"
   },
   "errors": {
     "FIELD_REQUIRED": "Kailangang punan ito.",
@@ -57,8 +60,8 @@
     "FORBIDDEN": "Wala kang pahintulot na buksan ang pahinang ito.",
     "NOT_FOUND": "Hindi nahanap ang hinahanap mo.",
     "INVALID_JSON": "Hindi tama ang ipinadalang datos. Pakisubukang muli.",
-    "NETWORK_ERROR": "Hindi maabot ang server. Suriin ang koneksyon at subukang muli.",
-    "SERVER_ERROR": "May nangyaring mali sa server. Pakisubukang muli.",
+    "NETWORK_ERROR": "Hindi namin maabot ang server. Pakitingnan ang iyong internet at subukang muli.",
+    "SERVER_ERROR": "Hindi ito natapos dahil sa problema sa aming panig. Pakisubukang muli maya-maya.",
     "RATING_REQUIRED": "Pumili ng rating mula 1 hanggang 5 bituin.",
     "COMMENT_TOO_LONG": "Dapat hindi hihigit sa 500 character ang komento.",
     "INVALID_COMMENT": "Dapat teksto ang komento.",
@@ -165,13 +168,19 @@
     "loading": "Naglo-load...",
     "tryAgain": "Subukang Muli",
     "back": "Bumalik",
-    "none": "—"
+    "none": "—",
+    "skipToContent": "Lumaktaw sa pangunahing nilalaman"
   },
   "home": {
     "greeting": "Magandang araw, {name}!",
-    "subtitle": "Sama-sama para sa mas malinis at ligtas na Barangay Landayan",
+    "subtitle": "Narito ang pinakabago sa mga problemang iniulat mo.",
     "myReports": "Aking mga Ulat",
-    "viewAll": "Tingnan Lahat"
+    "viewAll": "Tingnan Lahat",
+    "nextTitle": "Ano ang mangyayari pagkatapos mag-ulat",
+    "nextSubmitted": "Natanggap na ng barangay ang iyong ulat.",
+    "nextUnderReview": "May nakatalaga nang response team dito.",
+    "nextInProgress": "Inaasikaso na ng team ang problema.",
+    "nextResolved": "Naayos na ang problema. Maaari mong i-rate ang pag-aasikaso rito."
   },
   "submitReport": {
     "title": "Mag-ulat ng Problemang Pangkapaligiran",
@@ -183,7 +192,11 @@
     "successText": "Salamat sa iyong ulat. Ang iyong reference number ay:",
     "backToHome": "Bumalik sa Home",
     "chooseArea": "Piliin ang iyong purok",
-    "similarNotice": "May katulad na ulat na naipadala na sa lugar na ito noong {date}. Puwede mo pa ring ipadala ang iyong ulat."
+    "similarNotice": "May katulad na ulat na naipadala na sa lugar na ito noong {date}. Puwede mo pa ring ipadala ang iyong ulat.",
+    "stepWhat": "Ano ang problema?",
+    "stepWhere": "Saan ito?",
+    "stepDetails": "Ilarawan ang nakikita mo",
+    "nextText": "Susuriin ng barangay ang iyong ulat at magtatalaga ng response team. Aabisuhan ka sa bawat pagbabago ng status nito."
   },
   "photos": {
     "sectionTitle": "Mga Litrato (opsyonal, hanggang {max})",
@@ -220,8 +233,8 @@
     "markAllRead": "Markahan lahat bilang nabasa",
     "unread": "Hindi pa nabasa",
     "unreadCount": "{count} hindi pa nabasa",
-    "emptyTitle": "Wala pang abiso",
-    "emptyMessage": "Dito lalabas ang mga update tungkol sa iyong mga ulat.",
+    "emptyTitle": "Walang abisong maipapakita",
+    "emptyMessage": "Aabisuhan ka rito tuwing magbabago ang status ng iyong ulat.",
     "messages": {
       "submitted": "Naipadala na ang iyong ulat {id}.",
       "underReview": "Sinusuri na ang iyong ulat {id}.",
@@ -297,7 +310,7 @@
     "pageOf": "Pahina {page} sa {pages}",
     "previous": "Nakaraan",
     "next": "Susunod",
-    "emptyTitle": "Walang nahanap na ulat",
+    "emptyTitle": "Walang ulat na tumutugma sa iyong paghahanap",
     "emptyMessage": "Subukan ang ibang paghahanap o filter."
   },
   "teamReport": {
@@ -347,7 +360,7 @@
     "activateUser": "I-activate si {name}",
     "deactivateUser": "I-deactivate si {name}",
     "showing": "Ipinapakita ang {count} na user",
-    "emptyTitle": "Walang nahanap na user",
+    "emptyTitle": "Walang user na tumugma",
     "confirmTitle": "I-deactivate ang account na ito?",
     "confirmMessage": "Hindi na makakapag-log in si {name} hanggang ma-activate muli ang account.",
     "cancel": "Kanselahin",
@@ -392,8 +405,8 @@
     "rangeTo": "Hanggang {to}"
   },
   "empty": {
-    "noReportsTitle": "Wala pang ulat",
-    "noReportsMessage": "Dito lalabas ang mga ulat na ipapadala mo."
+    "noReportsTitle": "Wala ka pang naipadalang ulat",
+    "noReportsMessage": "Ipadala ang una mong ulat at masusubaybayan mo rito ang progreso nito."
   },
   "dashboard": {
     "overview": "Buod ng mga ulat sa Barangay Landayan.",
@@ -781,16 +794,33 @@
   },
   "landing": {
     "brand": "Barangay Landayan",
-    "intro": "Mag-ulat ng basura, polusyon, baha at iba pang panganib sa inyong lugar, at subaybayan ang tugon ng barangay.",
+    "intro": "Ipaalam sa barangay ang hindi nakolektang basura, polusyon, baha, at iba pang panganib sa inyong lugar, at subaybayan ang tugon nito gamit ang iyong telepono.",
     "casesTitle": "Mga Naresolbang Kaso",
     "casesIntro": "Mga kamakailang problemang naresolba ng barangay.",
-    "noCases": "Malapit nang lumabas dito ang mga naresolbang kaso.",
     "loadError": "Hindi ma-load ang mga naresolbang kaso ngayon.",
     "carousel": "slideshow",
     "slide": "slide",
     "slideOf": "{n} sa {total}",
     "previous": "Nakaraang kaso",
     "next": "Susunod na kaso",
-    "goTo": "Ipakita ang kaso {n}"
+    "goTo": "Ipakita ang kaso {n}",
+    "navHow": "Paano ito gumagana",
+    "navReport": "Ano ang maiuulat",
+    "navContact": "Kontak",
+    "heroTitle": "Iulat ang mga problemang pangkapaligiran sa Barangay Landayan",
+    "submitReport": "Magpadala ng Ulat",
+    "heroEmergency": "Kapag may emergency, huwag gamitin ang form na ito.",
+    "heroEmergencyLink": "Tingnan ang mga emergency hotline",
+    "howTitle": "Paano mag-ulat",
+    "howStep1Title": "Gumawa ng account",
+    "howStep1": "Magparehistro gamit ang iyong pangalan, address, at mobile number.",
+    "howStep2Title": "Ipadala ang ulat",
+    "howStep2": "Piliin ang uri ng problema, sabihin kung nasaan ito, at maglagay ng larawan kung kaya.",
+    "howStep3Title": "Magtatalaga ng team ang barangay",
+    "howStep3": "Susuriin ng LGU ang iyong ulat at itatalaga ang response team na sakop ang inyong purok.",
+    "howStep4Title": "Subaybayan ang progreso",
+    "howStep4": "Aabisuhan ka sa bawat pagbabago ng status, hanggang sa maresolba ang problema.",
+    "reportTitle": "Ano ang maaari mong iulat",
+    "footerNote": "Ang serbisyong ito ay para sa mga problemang pangkapaligiran na hindi emergency."
   }
 }

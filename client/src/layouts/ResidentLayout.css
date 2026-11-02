@@ -5,9 +5,9 @@
 }
 
 .resident-layout__main {
-  max-width: 560px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 20px var(--gutter);
+  padding: var(--space-4) var(--gutter);
 }
 
 .resident-layout__nav {
@@ -17,4 +17,55 @@
   left: 0;
   z-index: 10;
   box-shadow: 0 -2px 8px rgba(31, 41, 51, 0.06);
+}
+
+/* Desktop: the navigation becomes a bar under the header */
+@media (min-width: 900px) {
+  .resident-layout {
+    padding-bottom: 96px;
+  }
+
+  .resident-layout__main {
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .resident-layout__main--wide {
+    max-width: 1104px;
+  }
+
+  .resident-layout__nav {
+    position: static;
+    border-top: 0;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: none;
+  }
+
+  .resident-layout__nav .bottom-nav__list {
+    display: flex;
+    gap: var(--space-1);
+    max-width: 1104px;
+    padding: 0 var(--space-5);
+  }
+
+  .resident-layout__nav .bottom-nav__link {
+    flex-direction: row;
+    gap: var(--space-2);
+    min-height: var(--control-height);
+    padding: 0 var(--space-3);
+    font-size: var(--font-body);
+  }
+
+  .resident-layout__nav .bottom-nav__link .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Room for the unread badge, so it does not cover the word */
+  .resident-layout__nav .bottom-nav__icon:has(.bottom-nav__badge) {
+    margin-right: var(--space-3);
+  }
+
+  .resident-layout__nav .bottom-nav__link.is-active {
+    box-shadow: inset 0 -3px 0 var(--color-primary);
+  }
 }

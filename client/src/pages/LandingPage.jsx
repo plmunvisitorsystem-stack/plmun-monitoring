@@ -1,6 +1,7 @@
 /**
  * Public landing page ("/", for visitors who are not logged in).
- *   - hero on the barangay hall photo: logo, app name, Log In and Create Account
+ *   - hero on the barangay hall photo: logo, app name, Submit a Report, Create Account
+ *   - how reporting works, and what can be reported
  *   - Contact and Office Hours, and the Emergency Hotlines box
  *   - footer with the Data Privacy Notice link
  *   - "Resolved Cases" slideshow: the cases the LGU featured
@@ -20,10 +21,13 @@ import HallPhoto from '../components/HallPhoto';
 import HotlineList from '../components/HotlineList';
 import { useApiData } from '../hooks/useApiData';
 import { formatClock } from '../utils/format';
+import { ISSUE_TYPES, ISSUE_TYPE_ICONS, ISSUE_TYPE_KEYS } from '../utils/constants';
+import SkipLink from '../components/SkipLink';
 import { apiRequest } from '../api/client';
 import { useLanguage } from '../i18n/useLanguage';
 import './Landing.css';
 
+const HOW_STEPS = [1, 2, 3, 4]; // texts: landing.howStep1Title, landing.howStep1, ...
 const AUTO_ADVANCE_MS = 6000;
 const REFRESH_MS = 30000; // also reload the list every 30 seconds while open
 
@@ -114,7 +118,7 @@ function ContactSection() {
   const today = contactData?.chat?.today;
 
   return (
-    <section className="landing__contact" aria-labelledby="landing-contact-title">
+    <section id="contact" className="landing__contact" aria-labelledby="landing-contact-title">
       <div className="contact-card">
         <h2 id="landing-contact-title" className="landing__section-title">
           {t('contact.title')}
@@ -174,7 +178,7 @@ function ContactSection() {
         )}
       </div>
 
-      <div className="hotline-box" role="region" aria-labelledby="landing-hotlines-title">
+      <div id="hotlines" className="hotline-box" role="region" aria-labelledby="landing-hotlines-title">
         <h2 id="landing-hotlines-title" className="hotline-box__title">
           <Icon name="phone" size={22} />
           <span>{t('hotlines.title')}</span>
@@ -218,56 +222,131 @@ export default function LandingPage() {
 
   return (
     <div className="landing">
+      <SkipLink />
       <header className="landing__header">
         <div className="landing__brand">
           <Logo size={40} loading="eager" />
           <span className="landing__brand-name">{t('landing.brand')}</span>
         </div>
-        <LanguageSwitch />
+        <nav className="landing__nav" aria-label={t('nav.mainMenu')}>
+          <a href="#how">{t('landing.navHow')}</a>
+          <a href="#report">{t('landing.navReport')}</a>
+          <a href="#contact">{t('landing.navContact')}</a>
+        </nav>
+        <div className="landing__header-actions">
+          <LanguageSwitch />
+          <Link to="/login" className="landing__login">
+            {t('actions.logIn')}
+          </Link>
+        </div>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="landing__hero hall-bg">
           <HallPhoto priority />
-          <Logo size={96} loading="eager" className="landing__hero-logo" />
-          <h1 className="landing__title">{t('app.title')}</h1>
-          <p className="landing__subtitle">{t('app.subtitle')}</p>
-          <p className="landing__intro">{t('landing.intro')}</p>
-          <div className="landing__actions">
-            <Link to="/login" className="btn btn--primary">
-              <span>{t('actions.logIn')}</span>
-            </Link>
-            <Link to="/register" className="btn btn--outline">
-              <span>{t('actions.createAccount')}</span>
-            </Link>
+          <div className="landing__hero-inner">
+            <div className="landing__identity">
+              <Logo size={72} loading="eager" className="landing__hero-logo" />
+              <div>
+                <p className="landing__system">{t('app.title')}</p>
+                <p className="landing__subtitle">{t('app.subtitle')}</p>
+              </div>
+            </div>
+            <h1 className="landing__title">{t('landing.heroTitle')}</h1>
+            <p className="landing__intro">{t('landing.intro')}</p>
+            <div className="landing__actions">
+              <Link to="/login" className="btn btn--outline">
+                <span>{t('landing.submitReport')}</span>
+              </Link>
+              <Link to="/register" className="btn landing__action-secondary">
+                <span>{t('actions.createAccount')}</span>
+              </Link>
+            </div>
+            <p className="landing__emergency">
+              {t('landing.heroEmergency')} <a href="#hotlines">{t('landing.heroEmergencyLink')}</a>
+            </p>
           </div>
         </section>
 
-        <section className="landing__cases" aria-labelledby="landing-cases-title">
-          <h2 id="landing-cases-title" className="landing__section-title">
-            {t('landing.casesTitle')}
-          </h2>
-          <p className="text-muted landing__section-intro">{t('landing.casesIntro')}</p>
-          {cases === null && !failed && <p className="text-muted" role="status">{t('common.loading')}</p>}
-          {failed && cases === null && <p className="text-muted">{t('landing.loadError')}</p>}
-          {cases && cases.length === 0 && <p className="landing__empty">{t('landing.noCases')}</p>}
-          {cases && cases.length > 0 && <Slideshow cases={cases} />}
+        <section id="how" className="landing__section landing__section--white" aria-labelledby="landing-how-title">
+          <div className="landing__container">
+            <h2 id="landing-how-title" className="landing__section-title">
+              {t('landing.howTitle')}
+            </h2>
+            <ol className="how-steps">
+              {HOW_STEPS.map((step, index) => (
+                <li key={step} className="how-steps__item">
+                  <span className="how-steps__number" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <h3 className="how-steps__title">{t(`landing.howStep${step}Title`)}</h3>
+                  <p className="how-steps__text">{t(`landing.howStep${step}`)}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
+
+        <section id="report" className="landing__section" aria-labelledby="landing-report-title">
+          <div className="landing__container">
+            <h2 id="landing-report-title" className="landing__section-title">
+              {t('landing.reportTitle')}
+            </h2>
+            <ul className="concern-list">
+              {ISSUE_TYPES.map((type) => {
+                const key = ISSUE_TYPE_KEYS[type];
+                return (
+                  <li key={type} className="concern-list__item">
+                    <span className="concern-list__icon">
+                      <Icon name={ISSUE_TYPE_ICONS[type]} />
+                    </span>
+                    <div>
+                      <h3 className="concern-list__title">{t(`issueType.${key}`)}</h3>
+                      <p className="concern-list__text">{t(`chatbot.answers.whatToReport.${key}`)}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+
+        {/* Shown only when the barangay has featured a case (or while loading it fails silently below) */}
+        {(failed || (cases && cases.length > 0)) && (
+          <section className="landing__section landing__section--white" aria-labelledby="landing-cases-title">
+            <div className="landing__container">
+              <h2 id="landing-cases-title" className="landing__section-title">
+                {t('landing.casesTitle')}
+              </h2>
+              <p className="text-muted landing__section-intro">{t('landing.casesIntro')}</p>
+              {failed && cases === null && <p className="text-muted">{t('landing.loadError')}</p>}
+              {cases && cases.length > 0 && <Slideshow cases={cases} />}
+            </div>
+          </section>
+        )}
 
         <ContactSection />
       </main>
 
       <footer className="landing__footer">
-        <div className="landing__footer-brand">
-          <Logo size={48} />
-          <div>
-            <p className="landing__footer-title">{t('app.title')}</p>
-            <p className="landing__footer-subtitle">{t('app.subtitle')}</p>
+        <div className="landing__footer-inner">
+          <div className="landing__footer-brand">
+            <Logo size={48} />
+            <div>
+              <p className="landing__footer-title">{t('landing.brand')}</p>
+              <p className="landing__footer-subtitle">{t('app.subtitle')}</p>
+            </div>
           </div>
+          <nav className="landing__footer-links" aria-label={t('landing.navContact')}>
+            <a href="#contact">{t('landing.navContact')}</a>
+            <a href="#hotlines">{t('hotlines.title')}</a>
+            <Link to="/login">{t('actions.logIn')}</Link>
+            <Link to="/privacy">{t('privacy.footerLink')}</Link>
+          </nav>
         </div>
-        <Link to="/privacy" className="landing__footer-link">
-          {t('privacy.footerLink')}
-        </Link>
+        <p className="landing__footer-note">
+          {t('app.title')}. {t('landing.footerNote')}
+        </p>
       </footer>
     </div>
   );

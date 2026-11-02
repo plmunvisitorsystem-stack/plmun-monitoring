@@ -1,43 +1,132 @@
-/* Hall photo fills the screen (see HallPhoto.css); the photo shows above and below the card */
+/* Login and Register: photo panel + form side by side on desktop,
+   short photo banner above the form on phones. */
 .auth-page {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
   min-height: 100vh;
-  padding: 40px var(--gutter);
-}
-
-/* The card keeps its normal (dark) text on white */
-.auth-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 28px 20px;
   background: var(--color-card);
-  color: var(--color-text);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
-.auth-card__brand {
+.auth-panel {
   display: flex;
   flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--gutter) var(--space-4);
+}
+
+.auth-panel__top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.auth-panel__brand {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  text-align: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-.auth-card__title {
-  margin: 4px 0 0;
-  font-size: 24px;
+.auth-panel__logo {
+  width: 56px;
+  height: 56px;
+}
+
+.auth-panel__brand p {
+  margin: 0;
+}
+
+.auth-panel__title {
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
-.auth-card__divider {
-  margin: 24px 0;
-  border: 0;
+.auth-panel__subtitle {
+  font-size: var(--font-small);
+  line-height: 1.35;
+}
+
+/* The longer sentence is only for the desktop panel */
+.auth-panel__text {
+  display: none;
+}
+
+.auth-main {
+  flex: 1;
+  padding: var(--space-5) var(--gutter) var(--space-6);
+}
+
+.auth-main__inner {
+  width: min(440px, 100%);
+  margin: 0 auto;
+}
+
+.auth-main__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-2);
   border-top: 1px solid var(--color-border);
+}
+
+.auth-main__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  color: var(--color-secondary);
+  font-size: var(--font-small);
+  font-weight: 600;
+}
+
+@media (min-width: 900px) {
+  .auth-page {
+    flex-direction: row;
+  }
+
+  /* Stays in view while a long form (Register) scrolls */
+  .auth-panel {
+    position: sticky;
+    top: 0;
+    flex: 0 0 45%;
+    height: 100vh;
+    padding: var(--space-5) var(--space-7) var(--space-7);
+  }
+
+  .auth-panel__brand {
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .auth-panel__logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .auth-panel__title {
+    font-size: var(--font-title-lg);
+    line-height: 1.2;
+  }
+
+  .auth-panel__subtitle {
+    margin-top: var(--space-1) !important;
+    font-size: var(--font-body);
+  }
+
+  .auth-panel__text {
+    display: block;
+    max-width: 460px;
+    font-size: 18px;
+  }
+
+  .auth-main {
+    display: flex;
+    align-items: center;
+    padding: var(--space-7) var(--space-6);
+  }
 }
 
 /* Form pieces shared by Login and Register */
@@ -88,15 +177,4 @@
   padding: 0 4px;
   color: var(--color-secondary);
   font-weight: 600;
-}
-
-@media (min-width: 600px) {
-  .auth-page {
-    padding-top: 64px;
-    padding-bottom: 64px;
-  }
-
-  .auth-card {
-    padding: 36px 40px;
-  }
 }
