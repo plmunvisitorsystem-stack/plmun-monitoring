@@ -90,7 +90,6 @@
             <option value="Staff">💼 Staff</option>
             <option value="Visitor">🛂 Visitor</option>
             <option value="Admin">🛡️ Admin</option>
-            <!-- DINAGDAG ANG GUARD DITO -->
             <option value="Guard">👮 Guard</option>
         </select>
     </div>
@@ -242,7 +241,6 @@
                     profileImage: userData.profileImage || ""
                 }));
 
-                // IDINAGDAG ANG GUARD REDIRECTION DITO
                 if (userData.role === 'Admin' || userData.role === 'Staff') { window.location.href = 'admin_dashboard.html'; } 
                 else if (userData.role === 'Guard') { window.location.href = 'guard_dashboard.html'; } 
                 else if (userData.role === 'Student' || userData.role === 'Faculty') { window.location.href = 'student_dashboard.html'; } 

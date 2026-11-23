@@ -15,7 +15,6 @@
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #0b1120; color: #e5e7eb; margin: 0; overflow-x: hidden; }
 
-        /* Sidebar hidden by default (slides in when toggled) */
         .sidebar { width: 260px; background: #111827; border-right: 1px solid #1f2937; min-height: 100vh; position: fixed; top: 0; left: 0; padding: 20px 0; display: flex; flex-direction: column; z-index: 1000; transition: transform 0.3s ease; transform: translateX(-100%); }
         .sidebar.open { transform: translateX(0); box-shadow: 5px 0 25px rgba(0,0,0,0.5); }
 
@@ -26,11 +25,9 @@
         .sidebar a:hover, .sidebar a.active { background: #1f2937; color: white; border-left: 3px solid #fbbf24; }
         .sidebar a i { font-size: 18px; }
 
-        /* Main content full width */
         .main-content { margin-left: 0; padding: 30px 40px; transition: 0.3s; }
         .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
 
-        /* Menu button — always visible */
         .menu-btn { display: inline-flex; align-items: center; justify-content: center; background: #111827; border: 1px solid #1f2937; color: #fbbf24; font-size: 22px; cursor: pointer; margin-right: 15px; width: 44px; height: 44px; border-radius: 12px; transition: 0.3s; flex-shrink: 0; }
         .menu-btn:hover { background: #1f2937; color: white; border-color: #3b82f6; }
 
@@ -55,7 +52,6 @@
         .badge-in { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); padding: 5px 12px; border-radius: 50px; font-weight: 600; font-size: 12px;}
         .badge-out { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 5px 12px; border-radius: 50px; font-weight: 600; font-size: 12px;}
 
-        /* Overlay */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
         .overlay.active { display: block; }
 
@@ -68,10 +64,8 @@
 </head>
 <body>
 
-<!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <div class="brand">
         <img src="plmun_logo.png" alt="Logo" style="width: 40px; height: 40px; border-radius: 50%;" onerror="this.src='https://ui-avatars.com/api/?name=PLM&background=1e3a8a&color=fff'">
@@ -84,7 +78,6 @@
     </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="main-content">
     <div class="top-header">
         <div class="d-flex align-items-center">
@@ -143,23 +136,23 @@
     document.getElementById('profileName').innerText = currentUser.fullName;
     document.getElementById('profileEmail').innerText = currentUser.email;
     document.getElementById('profileID').innerText = currentUser.userId;
-    document.getElementById('navAvatar').src = currentUser.profileImage || `https://ui-avatars.com/api/?name=${currentUser.fullName.replace(' ', '+')}&background=fbbf24&color=000`;
+    
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=fbbf24&color=000`;
+    document.getElementById('navAvatar').src = currentUser.profileImage || avatarUrl;
     document.getElementById('myQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(currentUser.qrString)}`;
 
-    // Toggle sidebar visibility (hidden by default)
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('open');
         document.getElementById('overlay').classList.toggle('active');
     }
 
-    // Logout
     function logout(e) {
         if (e) e.preventDefault();
         localStorage.removeItem('currentUser');
         window.location.href = 'login.html';
     }
 
-    // ---------- DOWNLOAD QR (fetch as blob — works on all browsers) ----------
+    // ---------- DOWNLOAD QR ----------
     async function downloadQR(e) {
         if (e) e.preventDefault();
 
@@ -194,22 +187,75 @@
             btn.style.pointerEvents = 'auto';
         }
     }
+</script>
 
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyas8e-2kLTcKIuMG70jVKDwpHz0Xg8XhGLZ1U6_brxbMK89PtcHlVW4MXhqhO_Mbif/exec';
+<!-- ✅ FIREBASE LOGIC PARA SA VISITOR HISTORY -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAvEt5YujwsC5iZGiBUNrCvcsy0IUIztUk",
+        authDomain: "plmun-system-v2.firebaseapp.com",
+        projectId: "plmun-system-v2",
+        storageBucket: "plmun-system-v2.firebasestorage.app",
+        messagingSenderId: "348432254532",
+        appId: "1:348432254532:web:5b1b138997f77a59ccb1e1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function formatDate(timestamp) {
+        if (!timestamp) return "N/A";
+        const date = timestamp.toDate();
+        return date.toLocaleString('en-PH', { 
+            timeZone: 'Asia/Manila',
+            month: 'short', day: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: true 
+        });
+    }
+
     async function loadHistory() {
         const tbody = document.getElementById('historyTable');
         try {
-            const response = await fetch(`${API_URL}?action=personalLogs&userId=${currentUser.userId}`);
-            const result = await response.json();
+            const logsRef = collection(db, "logs");
+            const q = query(
+                logsRef, 
+                where("userId", "==", currentUser.userId), 
+                orderBy("timestamp", "desc"),
+                limit(20)
+            );
+            
+            const snapshot = await getDocs(q);
+            
+            if (snapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-white-50 py-4">No visit records yet. Scan your QR at the gate.</td></tr>';
+                return;
+            }
+
             tbody.innerHTML = '';
-            if (result.success && result.logs.length > 0) {
-                result.logs.forEach(log => {
-                    const badge = log.action === 'IN' ? '<span class="badge-in">IN</span>' : '<span class="badge-out">OUT</span>';
-                    tbody.innerHTML += `<tr style="border-bottom: 1px solid #1f2937;"><td class="text-white-50" style="font-size: 14px;">${log.time}</td><td>${badge}</td><td class="text-white-50 text-end" style="font-size: 13px;">${log.gate}</td></tr>`;
-                });
-            } else { tbody.innerHTML = '<tr><td colspan="3" class="text-center text-white-50 py-4">No visit records yet.</td></tr>'; }
-        } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="text-danger text-center">Error loading data.</td></tr>'; }
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const badge = data.action === 'IN' ? '<span class="badge-in">IN</span>' : '<span class="badge-out">OUT</span>';
+                const timeStr = formatDate(data.timestamp);
+                const gate = data.gate || "Main Gate";
+                
+                tbody.innerHTML += `
+                    <tr style="border-bottom: 1px solid #1f2937;">
+                        <td class="text-white-50" style="font-size: 14px;">${timeStr}</td>
+                        <td>${badge}</td>
+                        <td class="text-white-50 text-end" style="font-size: 13px;">${gate}</td>
+                    </tr>
+                `;
+            });
+
+        } catch (error) {
+            console.error("Error loading history:", error);
+            tbody.innerHTML = '<tr><td colspan="3" class="text-danger text-center">Error loading data. Please try again.</td></tr>';
+        }
     }
+
     loadHistory();
 </script>
 </body>

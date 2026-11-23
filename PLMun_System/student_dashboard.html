@@ -134,7 +134,9 @@
     document.getElementById('navRole').innerText = currentUser.role;
     document.getElementById('profileEmail').innerText = currentUser.email;
     document.getElementById('profileID').innerText = currentUser.userId;
-    document.getElementById('navAvatar').src = currentUser.profileImage || `https://ui-avatars.com/api/?name=${currentUser.fullName.replace(' ', '+')}&background=fbbf24&color=000`;
+    
+    const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.fullName)}&background=fbbf24&color=000`;
+    document.getElementById('navAvatar').src = currentUser.profileImage || avatarUrl;
     document.getElementById('myQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(currentUser.qrString)}`;
 
     function toggleSidebar() {
@@ -148,7 +150,7 @@
         window.location.href = 'login.html';
     }
 
-    // ---------- DOWNLOAD QR (fetch as blob — works on all browsers) ----------
+    // ---------- DOWNLOAD QR ----------
     async function downloadQR(e) {
         if (e) e.preventDefault();
 
@@ -161,12 +163,10 @@
         const fileName = 'PLMun_QR_' + currentUser.fullName.replace(/\s+/g, '_') + '.png';
 
         try {
-            // Fetch the QR image as a blob so the browser treats it as same-origin
             const response = await fetch(qrUrl, { mode: 'cors' });
             if (!response.ok) throw new Error('QR fetch failed');
             const blob = await response.blob();
 
-            // Create a temporary blob URL and trigger a real download
             const blobUrl = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = blobUrl;
@@ -175,11 +175,9 @@
             link.click();
             document.body.removeChild(link);
 
-            // Release memory
             setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
 
         } catch (err) {
-            // Fallback: open the QR in a new tab if fetch is blocked
             console.warn('Blob download failed, falling back to open-in-tab:', err);
             window.open(qrUrl, '_blank');
         } finally {
@@ -187,22 +185,75 @@
             btn.style.pointerEvents = 'auto';
         }
     }
+</script>
 
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyas8e-2kLTcKIuMG70jVKDwpHz0Xg8XhGLZ1U6_brxbMK89PtcHlVW4MXhqhO_Mbif/exec';
+<!-- ✅ FIREBASE LOGIC PARA SA STUDENT HISTORY -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAvEt5YujwsC5iZGiBUNrCvcsy0IUIztUk",
+        authDomain: "plmun-system-v2.firebaseapp.com",
+        projectId: "plmun-system-v2",
+        storageBucket: "plmun-system-v2.firebasestorage.app",
+        messagingSenderId: "348432254532",
+        appId: "1:348432254532:web:5b1b138997f77a59ccb1e1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function formatDate(timestamp) {
+        if (!timestamp) return "N/A";
+        const date = timestamp.toDate();
+        return date.toLocaleString('en-PH', { 
+            timeZone: 'Asia/Manila',
+            month: 'short', day: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit', hour12: true 
+        });
+    }
+
     async function loadHistory() {
         const tbody = document.getElementById('historyTable');
         try {
-            const response = await fetch(`${API_URL}?action=personalLogs&userId=${currentUser.userId}`);
-            const result = await response.json();
+            const logsRef = collection(db, "logs");
+            const q = query(
+                logsRef, 
+                where("userId", "==", currentUser.userId), 
+                orderBy("timestamp", "desc"),
+                limit(20)
+            );
+            
+            const snapshot = await getDocs(q);
+            
+            if (snapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-white-50 py-4">No records yet. Scan your QR at the gate to start tracking.</td></tr>';
+                return;
+            }
+
             tbody.innerHTML = '';
-            if (result.success && result.logs.length > 0) {
-                result.logs.forEach(log => {
-                    const badge = log.action === 'IN' ? '<span class="badge-in">IN</span>' : '<span class="badge-out">OUT</span>';
-                    tbody.innerHTML += `<tr style="border-bottom: 1px solid #1f2937;"><td class="text-white-50" style="font-size: 14px;">${log.time}</td><td>${badge}</td><td class="text-white-50 text-end" style="font-size: 13px;">${log.gate}</td></tr>`;
-                });
-            } else { tbody.innerHTML = '<tr><td colspan="3" class="text-center text-white-50 py-4">No records yet.</td></tr>'; }
-        } catch (e) { tbody.innerHTML = '<tr><td colspan="3" class="text-danger text-center">Error loading data.</td></tr>'; }
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const badge = data.action === 'IN' ? '<span class="badge-in">IN</span>' : '<span class="badge-out">OUT</span>';
+                const timeStr = formatDate(data.timestamp);
+                const gate = data.gate || "Main Gate";
+                
+                tbody.innerHTML += `
+                    <tr style="border-bottom: 1px solid #1f2937;">
+                        <td class="text-white-50" style="font-size: 14px;">${timeStr}</td>
+                        <td>${badge}</td>
+                        <td class="text-white-50 text-end" style="font-size: 13px;">${gate}</td>
+                    </tr>
+                `;
+            });
+
+        } catch (error) {
+            console.error("Error loading history:", error);
+            tbody.innerHTML = '<tr><td colspan="3" class="text-danger text-center">Error loading data. Please try again.</td></tr>';
+        }
     }
+
     loadHistory();
 </script>
 </body>

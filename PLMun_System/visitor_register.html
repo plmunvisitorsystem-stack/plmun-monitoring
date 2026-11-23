@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLMun - Visitor Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #0b1120; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 15px; }
+        .card-custom { background: #111827; border: 1px solid #1f2937; border-radius: 24px; padding: 30px; width: 100%; max-width: 500px; text-align: center; position: relative; overflow: hidden; }
+        .card-custom::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+        h3 { color: white; font-weight: 700; }
+        .form-control, .form-select { background: #1f2937; border: 1px solid #374151; color: white; border-radius: 10px; padding: 12px; }
+        .form-control:focus, .form-select:focus { background: #1f2937; border-color: #3b82f6; color: white; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        .btn-custom { background: #1e3a8a; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 600; width: 100%; margin-top: 10px; }
+        .btn-custom:hover { background: #1e40af; }
+        #cameraPreview { width: 100%; border-radius: 16px; margin-bottom: 15px; display: none; }
+        #photoPreview { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin: 15px auto; display: none; border: 4px solid #3b82f6; }
+    </style>
+</head>
+<body>
+
+<div class="card-custom">
+    <h3 class="mb-4">Visitor Registration</h3>
+    <p style="color: #9ca3af; font-size: 14px;">Fill in your details and capture a selfie for verification.</p>
+
+    <!-- Full Name -->
+    <div class="mb-3">
+        <input type="text" id="visitorName" class="form-control" placeholder="Full Name" required>
+    </div>
+
+    <!-- Purpose of Visit -->
+    <div class="mb-3">
+        <select id="visitPurpose" class="form-select" required>
+            <option value="" disabled selected>Select Purpose of Visit</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Inquiry">Inquiry</option>
+            <option value="Event">Event</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <!-- Contact Number -->
+    <div class="mb-3">
+        <input type="tel" id="visitorContact" class="form-control" placeholder="Contact Number">
+    </div>
+
+    <!-- Camera / Selfie -->
+    <div class="mb-3">
+        <video id="cameraPreview" autoplay playsinline></video>
+        <img id="photoPreview" alt="Captured Photo">
+        <button class="btn btn-outline-light w-100 mb-2" type="button" onclick="startCamera()" id="startCamBtn">📷 Open Camera</button>
+        <button class="btn btn-outline-success w-100 mb-2" type="button" onclick="capturePhoto()" id="captureBtn" style="display: none;">📸 Capture Photo</button>
+    </div>
+
+    <button class="btn-custom" onclick="registerVisitor()">Generate Pass</button>
+
+    <!-- Result Section -->
+    <div id="resultSection" style="display: none; margin-top: 20px;">
+        <h4 style="color: #10b981;">✅ Registration Successful!</h4>
+        <img id="qrImage" style="width: 200px; margin: 15px auto; display: block; border-radius: 10px;">
+        <p style="color: #9ca3af; font-size: 13px;">Show this QR at the gate. Valid for TODAY only.</p>
+        <button class="btn btn-outline-warning w-100 mt-2" onclick="downloadQR()">📥 Download Pass</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAvEt5YujwsC5iZGiBUNrCvcsy0IUIztUk",
+        authDomain: "plmun-system-v2.firebaseapp.com",
+        projectId: "plmun-system-v2",
+        storageBucket: "plmun-system-v2.firebasestorage.app",
+        messagingSenderId: "348432254532",
+        appId: "1:348432254532:web:5b1b138997f77a59ccb1e1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let videoStream = null;
+    let capturedPhotoBase64 = "";
+    let generatedQRString = "";
+    let generatedName = "";
+
+    window.startCamera = async function() {
+        const video = document.getElementById('cameraPreview');
+        video.style.display = 'block';
+        document.getElementById('startCamBtn').style.display = 'none';
+        document.getElementById('captureBtn').style.display = 'block';
+
+        try {
+            videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+            video.srcObject = videoStream;
+        } catch (err) {
+            alert("Camera Error: " + err.message);
+        }
+    }
+
+    window.capturePhoto = function() {
+        const video = document.getElementById('cameraPreview');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        capturedPhotoBase64 = canvas.toDataURL('image/jpeg');
+
+        const photoPreview = document.getElementById('photoPreview');
+        photoPreview.src = capturedPhotoBase64;
+        photoPreview.style.display = 'block';
+
+        video.style.display = 'none';
+        document.getElementById('captureBtn').style.display = 'none';
+
+        if (videoStream) {
+            videoStream.getTracks().forEach(track => track.stop());
+        }
+    }
+
+    window.registerVisitor = async function() {
+        const name = document.getElementById('visitorName').value.trim();
+        const purpose = document.getElementById('visitPurpose').value;
+        const contact = document.getElementById('visitorContact').value.trim();
+
+        if (!name || !purpose) {
+            alert("Please fill in your name and purpose of visit.");
+            return;
+        }
+
+        if (!capturedPhotoBase64) {
+            alert("Please capture a selfie for verification.");
+            return;
+        }
+
+        const qrString = crypto.randomUUID();
+
+        try {
+            await addDoc(collection(db, "visitors"), {
+                fullName: name,
+                purpose: purpose,
+                contact: contact,
+                photo: capturedPhotoBase64,
+                qrString: qrString,
+                registeredAt: Timestamp.now(),
+                expiresAt: Timestamp.fromDate(new Date(new Date().setHours(23, 59, 59, 999))) // Valid until end of day
+            });
+
+            generatedQRString = qrString;
+            generatedName = name;
+
+            document.getElementById('qrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(qrString)}`;
+            document.getElementById('resultSection').style.display = 'block';
+
+        } catch (error) {
+            alert("Registration Failed: " + error.message);
+        }
+    }
+
+    window.downloadQR = function() {
+        const link = document.createElement('a');
+        link.href = `https://api.qrserver.com/v1/create-qr-code/?size=800x800&data=${encodeURIComponent(generatedQRString)}`;
+        link.download = 'PLMun_VisitorPass_' + generatedName.replace(/\s+/g, '_') + '.png';
+        link.click();
+    }
+</script>
+</body>
+</html>
